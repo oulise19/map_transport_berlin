@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Berlin Traffic Map</title>
+  <link href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css" rel="stylesheet">
+    <script src="https://unpkg.com/maplibre-gl/dist/maplibre-gl.js"></script>
+    <script src="https://unpkg.com/deck.gl@latest/dist.min.js"></script>
+  
+  
+  
+  <link rel="stylesheet" href = "style.css">
+ 
+</head>
+<body>
+    <div id="left-panel">
+        <div id="description">
+        <h2>Berlin Traffic Map</h2>
+        <p>Text description</p>
+            <div>
+                <input type="checkbox" id="check-verkehrsmengen" name="verkehrsmengen" checked />
+                <label for="verkehrsmengen">Verkehrsmengen</label>
+
+                <input type="checkbox" id="check-telraam" name="telraam" checked />
+                <label for="telraam">Telraam</label>
+            </div>
+
+        </div>
+    </div>
+  <div id="map"></div>
+
+  
+  <div id="right-panel" style="display:none">
+  <button id="close-btn" aria-label="Close panel" type="button">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <h3 id="panel-title">Segment Info</h3>
+  <div id="panel-content"></div>
+</div>
+  
+</body>
+  <script src="map.js"></script>
+</html>
