@@ -32,3 +32,48 @@ body.panel-open {
   padding: 16px;
   overflow-y: auto;
 }
+
+.layer-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+ #mode-toggles {
+    display: flex;
+    gap: 4px;
+    background: #e5e7eb;
+    padding: 4px;
+    border-radius: 8px;
+    width: fit-content;
+  }
+
+  .toggle-btn {
+    padding: 6px 16px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: #6b7280;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+  }
+
+  .toggle-btn:hover:not(.active) {
+    color: #374151;
+  }
+
+  .toggle-btn.active {
+  background: var(--active-color, #ffffff);
+  color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+}
+
+#right-panel {
+  transition: opacity 0.15s ease;
+}
+
+#right-panel.refreshing {
+  opacity: 0;
+}

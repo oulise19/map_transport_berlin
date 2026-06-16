@@ -18,11 +18,28 @@
         <h2>Berlin Traffic Map</h2>
         <p>Text description</p>
             <div>
-                <input type="checkbox" id="check-verkehrsmengen" name="verkehrsmengen" checked />
+              <span class="layer-title">
+                
+                <input type="checkbox" id="toggle-verkehrsmengen" name="toggle-verkehrsmengen" checked />
                 <label for="verkehrsmengen">Verkehrsmengen</label>
+                </span>
 
-                <input type="checkbox" id="check-telraam" name="telraam" checked />
+                <div id="mode-toggles">
+                <button class="toggle-btn" name="mode" value="bike">Bike</button>
+                <button class="toggle-btn" name="mode" value="car">Car</button>
+                <button class="toggle-btn" name="mode" value="heavy">Heavy</button>
+              </div>      
+
+              <span class="layer-title">
+                <input type="checkbox" id="toggle-telraam" name="toggle-telraam" checked />
                 <label for="telraam">Telraam</label>
+                </span>
+                <div id="mode-toggles">
+                  <button class="toggle-btn" name="mode" value="bike">Bike</button>
+                  <button class="toggle-btn" name="mode" value="car">Car</button>
+                  <button class="toggle-btn" name="mode" value="heavy">Heavy</button>
+                </div>
+              </div>
             </div>
 
         </div>
