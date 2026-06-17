@@ -2,6 +2,7 @@ const {DeckGL, GeoJsonLayer} = deck;
 let currentZoom = 11;
 let currentProps = null;
 let activeMode = 'bike';
+let activeMonth = '2025_01';
 const modeConfig = {
   'bike': {
     telraam: 'bike_total', verkehr: 'dtvw_rad', label: 'Bikes',
@@ -33,22 +34,22 @@ function hexToRgb(hex) {
 }
 
 function getLayers() {
-  
-
+    console.log('initial activeMonth:', activeMonth)
+    const telraamVisible = document.getElementById('toggle-telraam').checked;
+    const verkehrVisible = document.getElementById('toggle-verkehrsmengen').checked;
+    //console.log('telraam visible:', telraamVisible, 'verkehr visible:', verkehrVisible);
   return [
     new GeoJsonLayer({
       id: 'telraam',
-      data: 'data/all_tel_2024.geojson',
+      data: 'data/2025_tel/tel_2025_all.geojson',
       getLineColor: (feature) => {
-       
-        const value = feature.properties[modeConfig[activeMode].telraam];
+        const field = `${modeConfig[activeMode].telraam}_${activeMonth}`;
+         //console.log('field:', field, 'value:', feature.properties[field]);
+        const value = feature.properties[field];
         
         const [min, max] = modeConfig[activeMode].rangeTelraam;
         const color = getColorScale(value, min, max, modeConfig[activeMode].colorTelraam);
-        if (feature.properties.segment_id === /* any id you know */ '1234') {
-            console.log('color result:', color);
-        }
-        
+          console.log('INITIAL LOAD - field:', field, 'value:', value, 'color:', color);
         return color;
         
             },
@@ -58,18 +59,19 @@ function getLayers() {
       lineWidthMinPixels: 2,
       getLineWidth: 3,
       pickable: true,
-      visible: true,
+      visible: telraamVisible,
     }),
     new GeoJsonLayer({
             id: 'verkehrsmengen',
             data: 'data/all_verkehrsmengen_2023.geojson',
             getLineColor: (feature) => {
-              const value = feature.properties[modeConfig[activeMode].verkehr];
+              console.log('activeMode:', activeMode, 'verkehr key:', modeConfig[activeMode].verkehr);
+              const field = modeConfig[activeMode].verkehr;
+              const value = feature.properties[field];
+
               const [min, max] = modeConfig[activeMode].rangeVerkehr;
               const color = getColorScale(value, min, max, modeConfig[activeMode].colorVerkehr);
-              if (feature.properties.segment_id === /* any id you know */ '1234') {
-                console.log('color result:', color);
-              }
+              //console.log('verkehr value:', value, 'color:', color);
               return color;
             },
             updateTriggers: {
@@ -78,7 +80,7 @@ function getLayers() {
             lineWidthMinPixels: 2,
             getLineWidth: 3,
             pickable: true,
-            visible: true,
+            visible: verkehrVisible,
     }),
   ];
 }
@@ -93,7 +95,7 @@ document.querySelectorAll('#mode-toggles .toggle-btn').forEach(btn => {
     btn.classList.add('active');
     btn.style.setProperty('--active-color', modeConfig[activeMode].colorTelraam);
 
-    deckGL.setProps({ layers: getLayers() }); // ← updates road color
+    deckGL.setProps({ layers: getLayers() }); 
     if (currentProps) renderPanel(currentProps, currentLayerId);
     });
 });
@@ -102,8 +104,9 @@ function renderPanel(props, layerId) {
   currentProps = props;
   currentLayerId = layerId;
   const config = modeConfig[activeMode];
-
-  const value = layerId === 'telraam' ? props[config.telraam] : props[config.verkehr];
+  const field = layerId === 'telraam' ? `${config.telraam}_${activeMonth}` : config.verkehr;
+  const value = props[field];
+  //const value = layerId === 'telraam' ? props[config.telraam] : props[config.verkehr];
 
   const header = layerId === 'telraam'
     ? `<p><strong>Segment:</strong> ${props.segment_id}</p>
@@ -140,33 +143,45 @@ function getColorScale(value, min, max, baseColor) {
   const t = Math.max(0, Math.min(1, (value - min) / (max - min)));
   const [r, g, b] = hexToRgb(baseColor);
 
+  const minT = 0.2;
+  const adjusted = minT + t * (1 - minT);
   return [
-    Math.round(255 - t * (255 - r * 0.5)),
-    Math.round(255 - t * (255 - g * 0.5)),
-    Math.round(255 - t * (255 - b * 0.5)),
+    Math.round(255 - adjusted * (255 - r * 0.5)),
+    Math.round(255 - adjusted * (255 - g * 0.5)),
+    Math.round(255 - adjusted * (255 - b * 0.5)),
     255  
   ];
 }
 
 
-  document.getElementById('toggle-verkehrsmengen').addEventListener('change', (e) => {
-  const layers = deckGL.props.layers;
-  const updated = layers.map(layer =>
-    layer.id === 'verkehrsmengen'
-      ? layer.clone({ visible: e.target.checked })
-      : layer
-  );
-  deckGL.setProps({ layers: updated });
+ document.getElementById('toggle-telraam').addEventListener('change', () => {
+  deckGL.setProps({ layers: getLayers() });
 });
 
-document.getElementById('toggle-telraam').addEventListener('change', (e) => {
-  const layers = deckGL.props.layers;
-  const updated = layers.map(layer =>
-    layer.id === 'telraam'
-      ? layer.clone({ visible: e.target.checked })
-      : layer
-  );
-  deckGL.setProps({ layers: updated });
+document.getElementById('toggle-verkehrsmengen').addEventListener('change', () => {
+  deckGL.setProps({ layers: getLayers() });
+});
+
+//for the month scale
+document.addEventListener('DOMContentLoaded', () => {
+    const defaultBtn = document.querySelector('.toggle-btn[value="bike"]');
+    defaultBtn.style.setProperty('--active-color', modeConfig['bike'].colorTelraam);
+    
+
+  document.querySelectorAll('#mode-toggles .toggle-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeMode = btn.value;
+      document.querySelectorAll('#mode-toggles .toggle-btn').forEach(b => {
+        b.classList.remove('active');
+        b.style.removeProperty('--active-color');
+      });
+      btn.classList.add('active');
+      btn.style.setProperty('--active-color', modeConfig[activeMode].colorTelraam);
+
+      deckGL.setProps({ layers: getLayers() });
+      if (currentProps) renderPanel(currentProps, currentLayerId);
+    });
+  });
 });
 
 //for highest values in heavy to avoid outliners 
@@ -174,6 +189,41 @@ function getPercentile(values, p) {
   const sorted = [...values].filter(v => v != null).sort((a, b) => a - b);
   const index = Math.floor((p / 100) * sorted.length);
   return sorted[index];
+}
+
+function getTooltip({ object, layer }) {
+    if (!object || currentZoom < 12) return null;
+    const config = modeConfig[activeMode];
+    const props = object.properties;
+    const layerId = layer.id;
+
+    currentProps = props;
+    currentLayerId = layerId;
+
+    const field = layerId === 'telraam' ? `${config.telraam}_${activeMonth}`: config.verkehr;
+    const value = props[field];
+    
+    switch (layer.id) {
+
+        case 'telraam':
+            return {
+                html: `
+                    <p>${config.telraam}:  ${value ?? '—'}</p>
+                    
+                `
+            };
+
+        case 'verkehrsmengen':
+            return {
+                html: `
+                    <p>${config.verkehr}: ${value ?? '—'}</p>
+                 
+                `
+            };
+
+        default:
+            return null;
+    }
 }
 
 
@@ -194,42 +244,14 @@ const deckGL = new DeckGL({
         currentZoom = viewState.zoom;
         //console.log(currentZoom);
         },
-        getTooltip: ({object, layer}) => {
-        
-        if (!object || currentZoom < 12) return null;
-        
-        const props = object.properties;
-        const layerId = layer.id;
-
-            if (layerId === 'telraam') {
-                return {
-                html: `
-                    
-                    <p>Cars: ${props.car_total}</p>
-                    <p>Heavy: ${props.heavy_total}</p>
-                    <p>Bikes: ${props.bike_total}</p>
-                    <p>Pedestrians: ${props.ped_total}</p>
-                `
-                };
-            }
-            else if (layerId === 'verkehrsmengen') {
-                return {
-                    html: `
-                    <p>Cars : ${props.dtvw_kfz}</p>
-                    <p>Heavy: ${props.dtvw_lkw}</p>
-                    <p>Bikes: ${props.dtvw_rad}</p>
-                    `
-                    }
-            }
-
-        },
+        getTooltip: getTooltip,
         
         onClick: (info) => {
         if (!info.object) return;
         const layerId = info.layer.id;
         console.log(info.object.properties);
         const layerToggle = document.getElementById(`toggle-${layerId}`);
-        if (layerToggle && !layerToggle.checked) return; // ignore click if layer is off
+        if (layerToggle && !layerToggle.checked) return; 
 
         renderPanel(info.object.properties, layerId);
         },

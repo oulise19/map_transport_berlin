@@ -77,3 +77,62 @@ body.panel-open {
 #right-panel.refreshing {
   opacity: 0;
 }
+
+#time-slider {
+  padding: 8px 16px;
+}
+
+#timeline-container {
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 8px 12px;
+  border: 1px solid black;
+  border-radius: 8px;
+  margin: 8px;
+  background: var(--color-background-secondary);
+}
+#timeline-scroll {
+  display: inline-flex;
+  gap: 0;
+}
+
+.year-block {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.year-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  padding-left: 4px;
+}
+
+.tick-row, .month-row {
+  display: flex;
+}
+
+.tick {
+  width: 28px;
+  height: 10px;
+  border-left: 1.5px solid var(--color-border-secondary);
+  cursor: pointer;
+}
+
+.tick.active {
+  border-left-color: #2196F3;
+}
+
+.month {
+  width: 28px;
+  font-size: 10px;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  text-align: left;
+}
+
+.month.active {
+  color: #2196F3;
+  font-weight: 500;
+}
