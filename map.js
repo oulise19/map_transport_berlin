@@ -49,7 +49,7 @@ function getLayers() {
         
         const [min, max] = modeConfig[activeMode].rangeTelraam;
         const color = getColorScale(value, min, max, modeConfig[activeMode].colorTelraam);
-          console.log('INITIAL LOAD - field:', field, 'value:', value, 'color:', color);
+         // console.log('INITIAL LOAD - field:', field, 'value:', value, 'color:', color);
         return color;
         
             },
@@ -65,7 +65,7 @@ function getLayers() {
             id: 'verkehrsmengen',
             data: 'data/all_verkehrsmengen_2023.geojson',
             getLineColor: (feature) => {
-              console.log('activeMode:', activeMode, 'verkehr key:', modeConfig[activeMode].verkehr);
+              //console.log('activeMode:', activeMode, 'verkehr key:', modeConfig[activeMode].verkehr);
               const field = modeConfig[activeMode].verkehr;
               const value = feature.properties[field];
 
@@ -166,7 +166,7 @@ document.getElementById('toggle-verkehrsmengen').addEventListener('change', () =
 document.addEventListener('DOMContentLoaded', () => {
     const defaultBtn = document.querySelector('.toggle-btn[value="bike"]');
     defaultBtn.style.setProperty('--active-color', modeConfig['bike'].colorTelraam);
-    
+    //console.log('default btn:', defaultBtn, 'color:', modeConfig['bike'].colorTelraam);
 
   document.querySelectorAll('#mode-toggles .toggle-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -225,6 +225,26 @@ function getTooltip({ object, layer }) {
             return null;
     }
 }
+
+
+//for time scale 
+document.addEventListener('DOMContentLoaded', () => {
+  // set default active state on load
+  document.querySelectorAll(`[data-month="${activeMonth}"]`).forEach(el => el.classList.add('active'));
+
+  document.querySelectorAll('.tick, .month').forEach(el => {
+    el.addEventListener('click', () => {
+      const month = el.dataset.month;
+      activeMonth = month;
+
+      document.querySelectorAll('.tick, .month').forEach(e => e.classList.remove('active'));
+      document.querySelectorAll(`[data-month="${month}"]`).forEach(e => e.classList.add('active'));
+
+      deckGL.setProps({ layers: getLayers() });
+      if (currentProps) renderPanel(currentProps, currentLayerId);
+    });
+  });
+});
 
 
 const deckGL = new DeckGL({
