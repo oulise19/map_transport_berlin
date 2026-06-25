@@ -3,24 +3,31 @@ let currentZoom = 11;
 let currentProps = null;
 let activeMode = 'bike';
 let activeMonth = '2025_01';
+let rangeStart = '2025_01';
+let rangeEnd = null; 
+
+let activeModeTelraam = 'bike';
+let activeModeVerkehr = 'bike';
+
+
 const modeConfig = {
   'bike': {
     telraam: 'bike_total', verkehr: 'dtvw_rad', label: 'Bikes',
-    colorTelraam: '#208d27', colorVerkehr: '#6bd72d',
+    colorTelraam: '#e844e8', colorVerkehr: '#e6611f',
     rangeTelraam: [0.0, 4167.1],
-    rangeVerkehr: [210, 8900]
+    rangeVerkehr: [210, 8900], zoomThreshold : 'II',
   },
   'car': {
     telraam: 'car_total', verkehr: 'dtvw_kfz', label: 'Cars',
-    colorTelraam: '#106ba0', colorVerkehr: '#1686cb',
+    colorTelraam: '#b91bbe', colorVerkehr: '#c46a04',
     rangeTelraam: [0.0, 10822.3],
-    rangeVerkehr: [0, 65000]
+    rangeVerkehr: [0, 65200], zoomThreshold : 'II',
   },
   'heavy': {
     telraam: 'heavy_total', verkehr: 'dtvw_lkw', label: 'Heavy',
-    colorTelraam: '#cba53b', colorVerkehr: '#fe8b09',
+    colorTelraam: '#801062', colorVerkehr: '#fe5b09',
     rangeTelraam: [100, 2073.2],
-    rangeVerkehr: [100, 1310.0]
+    rangeVerkehr: [100, 3000], zoomThreshold : 'II',
   }
 };
 
@@ -34,30 +41,35 @@ function hexToRgb(hex) {
 }
 
 function getLayers() {
-    console.log('initial activeMonth:', activeMonth)
+    //console.log('initial activeMonth:', activeMonth)
     const telraamVisible = document.getElementById('toggle-telraam').checked;
     const verkehrVisible = document.getElementById('toggle-verkehrsmengen').checked;
     //console.log('telraam visible:', telraamVisible, 'verkehr visible:', verkehrVisible);
   return [
     new GeoJsonLayer({
       id: 'telraam',
-      data: 'data/2025_tel/tel_2025_all.geojson',
+      data: 'data/tel_all_years.geojson',
       getLineColor: (feature) => {
-        const field = `${modeConfig[activeMode].telraam}_${activeMonth}`;
-         //console.log('field:', field, 'value:', feature.properties[field]);
-        const value = feature.properties[field];
+        const value = getAveragedValue(feature.properties, modeConfig[activeModeTelraam].telraam); 
         
-        const [min, max] = modeConfig[activeMode].rangeTelraam;
-        const color = getColorScale(value, min, max, modeConfig[activeMode].colorTelraam);
+        const [min, max] = modeConfig[activeModeTelraam].rangeTelraam;
+        const color_tel = getColorScale(value, min, max, modeConfig[activeModeTelraam].colorTelraam);
          // console.log('INITIAL LOAD - field:', field, 'value:', value, 'color:', color);
-        return color;
+        return color_tel;
         
-            },
+        },
+        // getLineWidth: (feature) => {
+        //     const value = getAveragedValue(feature.properties, modeConfig[activeModeTelraam].telraam);
+        //     const [min, max] = modeConfig[activeModeTelraam].rangeTelraam;
+        //     const t = Math.max(0, Math.min(1, (value - min) / (max - min)));
+        //     return 2 + t * 8; 
+        //     },
       updateTriggers: {
-        getLineColor: [activeMode] 
+        getLineColor: [activeModeTelraam, rangeStart, rangeEnd],
+       
       },
-      lineWidthMinPixels: 2,
-      getLineWidth: 3,
+      lineWidthMinPixels: 4,
+  
       pickable: true,
       visible: telraamVisible,
     }),
@@ -66,19 +78,36 @@ function getLayers() {
             data: 'data/all_verkehrsmengen_2023.geojson',
             getLineColor: (feature) => {
               //console.log('activeMode:', activeMode, 'verkehr key:', modeConfig[activeMode].verkehr);
-              const field = modeConfig[activeMode].verkehr;
+              const field = modeConfig[activeModeVerkehr].verkehr;
               const value = feature.properties[field];
+              const threshold = modeConfig[activeModeVerkehr].zoomThreshold;
+             const rank_street = feature.properties['strklasse1'];
+            // console.log('rank_street:', rank_street);
+               if (currentZoom < 12 && rank_street > threshold) {
+               // console.log(currentZoom);
+               
+                    return [0, 0, 0, 0];
+                     console.log( 'rank_street:', rank_street = 'III', FALSE);
+                }
 
-              const [min, max] = modeConfig[activeMode].rangeVerkehr;
-              const color = getColorScale(value, min, max, modeConfig[activeMode].colorVerkehr);
+              const [min, max] = modeConfig[activeModeVerkehr].rangeVerkehr;
+              const color_ver = getColorScale(value, min, max, modeConfig[activeModeVerkehr].colorVerkehr);
               //console.log('verkehr value:', value, 'color:', color);
-              return color;
+              return color_ver;
             },
+            // getLineWidth: (feature) => {
+            // const value = feature.properties[modeConfig[activeModeVerkehr].verkehr];
+           
+            // const [min, max] = modeConfig[activeModeVerkehr].rangeVerkehr;
+            // let t = Math.max(0, Math.min(1, (value - min) / (max - min)));
+            // t = Math.pow(t, 0.5); 
+            // return 2 + t * 12; 
+            // },
             updateTriggers: {
-              getLineColor: [activeMode] 
+              getLineColor: [activeModeVerkehr, currentZoom],
+
             },
-            lineWidthMinPixels: 2,
-            getLineWidth: 3,
+            lineWidthMinPixels: 3,
             pickable: true,
             visible: verkehrVisible,
     }),
@@ -104,8 +133,7 @@ function renderPanel(props, layerId) {
   currentProps = props;
   currentLayerId = layerId;
   const config = modeConfig[activeMode];
-  const field = layerId === 'telraam' ? `${config.telraam}_${activeMonth}` : config.verkehr;
-  const value = props[field];
+  const value = layerId === 'telraam' ? getAveragedValue(props, config.telraam) : props[config.verkehr];
   //const value = layerId === 'telraam' ? props[config.telraam] : props[config.verkehr];
 
   const header = layerId === 'telraam'
@@ -137,51 +165,102 @@ function renderPanel(props, layerId) {
 
 }
 
+//graduation color
 function getColorScale(value, min, max, baseColor) {
   if (value === null || value === undefined) return [160, 160, 160, 255];
   
-  const t = Math.max(0, Math.min(1, (value - min) / (max - min)));
+  let t = Math.max(0, Math.min(1, (value - min) / (max - min)));
+  t = Math.pow(t, 0.6); // pulls mid values up, makes more segments look "strong"
+  
   const [r, g, b] = hexToRgb(baseColor);
-
-  const minT = 0.2;
+  const minT = 0.15; // slightly lower floor for more contrast
   const adjusted = minT + t * (1 - minT);
+
   return [
-    Math.round(255 - adjusted * (255 - r * 0.5)),
-    Math.round(255 - adjusted * (255 - g * 0.5)),
-    Math.round(255 - adjusted * (255 - b * 0.5)),
-    255  
+    Math.round(255 - adjusted * (255 - r)),
+    Math.round(255 - adjusted * (255 - g)),
+    Math.round(255 - adjusted * (255 - b)),
+    255
   ];
 }
 
+//toggle 
+//  document.getElementById('toggle-telraam').addEventListener('change', (e) => {
+//     document.querySelectorAll('#mode-toggles-tel .toggle-btn').forEach(btn => {
+//     btn.disabled = !e.target.checked;
+//   });
+//   deckGL.setProps({ layers: getLayers() });
+// });
 
- document.getElementById('toggle-telraam').addEventListener('change', () => {
-  deckGL.setProps({ layers: getLayers() });
-});
-
-document.getElementById('toggle-verkehrsmengen').addEventListener('change', () => {
-  deckGL.setProps({ layers: getLayers() });
-});
+// document.getElementById('toggle-verkehrsmengen').addEventListener('change', (e) => {
+//   document.querySelectorAll('#mode-toggles-ver .toggle-btn').forEach(btn => {
+//     btn.disabled = !e.target.checked;
+//   });
+//   deckGL.setProps({ layers: getLayers() });
+// });
 
 //for the month scale
 document.addEventListener('DOMContentLoaded', () => {
-    const defaultBtn = document.querySelector('.toggle-btn[value="bike"]');
-    defaultBtn.style.setProperty('--active-color', modeConfig['bike'].colorTelraam);
-    //console.log('default btn:', defaultBtn, 'color:', modeConfig['bike'].colorTelraam);
+    const defaultBtnTelraam = document.querySelector('#mode-toggles-tel .toggle-btn[value="bike"]');
+  defaultBtnTelraam.classList.add('active');
+  defaultBtnTelraam.style.setProperty('--active-color', modeConfig['bike'].colorTelraam);
 
-  document.querySelectorAll('#mode-toggles .toggle-btn').forEach(btn => {
+  const defaultBtnVerkehr = document.querySelector('#mode-toggles-ver .toggle-btn[value="bike"]');
+  defaultBtnVerkehr.classList.add('active');
+  defaultBtnVerkehr.style.setProperty('--active-color', modeConfig['bike'].colorVerkehr);
+
+  updateLegend('telraam');
+    updateLegend('verkehrsmengen');
+  document.querySelectorAll('#mode-toggles-tel .toggle-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      activeMode = btn.value;
-      document.querySelectorAll('#mode-toggles .toggle-btn').forEach(b => {
+      activeModeTelraam = btn.value;
+      document.querySelectorAll('#mode-toggles-tel .toggle-btn').forEach(b => {
         b.classList.remove('active');
         b.style.removeProperty('--active-color');
       });
       btn.classList.add('active');
-      btn.style.setProperty('--active-color', modeConfig[activeMode].colorTelraam);
-
+      btn.style.setProperty('--active-color', modeConfig[activeModeTelraam].colorTelraam);
       deckGL.setProps({ layers: getLayers() });
+      updateLegend('telraam');
       if (currentProps) renderPanel(currentProps, currentLayerId);
     });
   });
+
+document.getElementById('toggle-telraam').addEventListener('change', (e) => {
+  document.querySelectorAll('#mode-toggles-tel .toggle-btn').forEach(btn => {
+    btn.disabled = !e.target.checked;
+  });
+  document.getElementById('legend-tel').style.display = e.target.checked ? 'block' : 'none';
+  updateLegend('telraam'); 
+  deckGL.setProps({ layers: getLayers() });
+});
+document.getElementById('toggle-verkehrsmengen').addEventListener('change', (e) => {
+  const buttons = document.querySelectorAll('#mode-toggles-verkehr .toggle-btn');
+  buttons.forEach(btn => {
+    btn.disabled = !e.target.checked;
+    
+  });
+document.getElementById('legend-ver').style.display = e.target.checked ? 'block' : 'none';
+updateLegend('verkehrsmengen');
+  deckGL.setProps({ layers: getLayers() });
+});
+
+
+  document.querySelectorAll('#mode-toggles-ver .toggle-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeModeVerkehr = btn.value;
+      document.querySelectorAll('#mode-toggles-ver .toggle-btn').forEach(b => {
+        b.classList.remove('active');
+        b.style.removeProperty('--active-color');
+      });
+      btn.classList.add('active');
+      btn.style.setProperty('--active-color', modeConfig[activeModeVerkehr].colorVerkehr);
+      deckGL.setProps({ layers: getLayers() });
+      updateLegend('verkehrsmengen');
+      if (currentProps) renderPanel(currentProps, currentLayerId);
+    });
+  });
+
 });
 
 //for highest values in heavy to avoid outliners 
@@ -193,66 +272,121 @@ function getPercentile(values, p) {
 
 function getTooltip({ object, layer }) {
     if (!object || currentZoom < 12) return null;
-    const config = modeConfig[activeMode];
+    const config = modeConfig[activeModeVerkehr];
     const props = object.properties;
     const layerId = layer.id;
 
-    currentProps = props;
+    //currentProps = props;
     currentLayerId = layerId;
 
-    const field = layerId === 'telraam' ? `${config.telraam}_${activeMonth}`: config.verkehr;
-    const value = props[field];
-    
+    const valuetel = getAveragedValue(props, modeConfig[activeModeTelraam].telraam);
+    const value_ver = props[modeConfig[activeModeVerkehr].verkehr];
     switch (layer.id) {
 
         case 'telraam':
             return {
                 html: `
-                    <p>${config.telraam}:  ${value ?? '—'}</p>
-                    
-                `
-            };
-
+                    <p>${config.telraam}:  ${valuetel ?? '—'}</p> `
+                };
         case 'verkehrsmengen':
             return {
                 html: `
-                    <p>${config.verkehr}: ${value ?? '—'}</p>
-                 
-                `
+                    <p>${config.verkehr}: ${value_ver ?? '—'}</p> `
             };
-
         default:
             return null;
     }
 }
-
-
-//for time scale 
 document.addEventListener('DOMContentLoaded', () => {
-  // set default active state on load
-  document.querySelectorAll(`[data-month="${activeMonth}"]`).forEach(el => el.classList.add('active'));
+  highlightRange();
 
   document.querySelectorAll('.tick, .month').forEach(el => {
     el.addEventListener('click', () => {
       const month = el.dataset.month;
-      activeMonth = month;
 
-      document.querySelectorAll('.tick, .month').forEach(e => e.classList.remove('active'));
-      document.querySelectorAll(`[data-month="${month}"]`).forEach(e => e.classList.add('active'));
+      if (rangeEnd !== null) {
+        // already had a range — start fresh
+        rangeStart = month;
+        rangeEnd = null;
+      } else if (month === rangeStart) {
+        // clicking same month again does nothing
+        return;
+      } else {
+        // set the end of the range (order doesn't matter, so sort them)
+        const months = getAllMonthsInOrder();
+        const i1 = months.indexOf(rangeStart);
+        const i2 = months.indexOf(month);
+        if (i2 > i1) {
+          rangeEnd = month;
+        } else {
+          rangeEnd = rangeStart;
+          rangeStart = month;
+        }
+      }
 
+      highlightRange();
       deckGL.setProps({ layers: getLayers() });
       if (currentProps) renderPanel(currentProps, currentLayerId);
     });
   });
 });
 
+function getAllMonthsInOrder() {
+  return Array.from(document.querySelectorAll('.month')).map(el => el.dataset.month);
+}
+
+function highlightRange() {
+  document.querySelectorAll('.tick, .month').forEach(e => e.classList.remove('active'));
+  const months = getAllMonthsInOrder();
+  const i1 = months.indexOf(rangeStart);
+  const i2 = rangeEnd ? months.indexOf(rangeEnd) : i1;
+  for (let i = i1; i <= i2; i++) {
+    document.querySelectorAll(`[data-month="${months[i]}"]`).forEach(e => e.classList.add('active'));
+  }
+}
+
+function getActiveMonths() {
+  const months = getAllMonthsInOrder();
+  const i1 = months.indexOf(rangeStart);
+  const i2 = rangeEnd ? months.indexOf(rangeEnd) : i1;
+  return months.slice(i1, i2 + 1);
+}
+
+function getAveragedValue(props, baseField) {
+  const months = getActiveMonths();
+  const values = months
+    .map(m => props[`${baseField}_${m}`])
+    .filter(v => v !== null && v !== undefined);
+    //console.log('months in range:', months.length, 'months with data:', values.length, 'values:', values);
+  if (values.length === 0) return null;
+   return Math.round(values.reduce((a, b) => a + b, 0) / values.length);
+}
+
+//legend bar update
+
+function updateLegend(layerType) {
+  const isTel = layerType === 'telraam';
+  const mode = isTel ? activeModeTelraam : activeModeVerkehr;
+  const config = modeConfig[mode];
+  const baseColor = isTel ? config.colorTelraam : config.colorVerkehr;
+  const [min, max] = isTel ? config.rangeTelraam : config.rangeVerkehr;
+
+  const bar = document.getElementById(isTel ? 'legend-bar-tel' : 'legend-bar-ver');
+  const lightColor = `rgb(${getColorScale(min, min, max, baseColor).slice(0,3).join(',')})`;
+  const darkColor = `rgb(${getColorScale(max, min, max, baseColor).slice(0,3).join(',')})`;
+  bar.style.background = `linear-gradient(to right, ${lightColor}, ${darkColor})`;
+
+  document.getElementById(isTel ? 'legend-min-tel' : 'legend-min-ver').textContent = min;
+  document.getElementById(isTel ? 'legend-max-tel' : 'legend-max-ver').textContent = max;
+}
+
 
 const deckGL = new DeckGL({
       container: 'map',
-      mapStyle: 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
-       // mapStyle: 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json',
-        //mapStyle: 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json',
-       // mapStyle: 'https://tiles.openfreemap.org/styles/bright',
+      //mapStyle: 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
+       //mapStyle: 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json',
+        mapStyle: 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json',
+      // mapStyle: 'https://tiles.openfreemap.org/styles/bright',
         initialViewState: {
             longitude: 13.4,
             latitude: 52.52,
@@ -262,10 +396,8 @@ const deckGL = new DeckGL({
         pickingRadius: 10,
         onViewStateChange: ({viewState}) => {
         currentZoom = viewState.zoom;
-        //console.log(currentZoom);
+        deckGL.setProps({ layers: getLayers() });
         },
-        getTooltip: getTooltip,
-        
         onClick: (info) => {
         if (!info.object) return;
         const layerId = info.layer.id;
@@ -276,7 +408,7 @@ const deckGL = new DeckGL({
         renderPanel(info.object.properties, layerId);
         },
                
-    layers: getLayers()
+   // layers: getLayers()
       
     }); 
   document.getElementById('close-btn').addEventListener('click', () => {

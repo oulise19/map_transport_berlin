@@ -58,7 +58,12 @@ body.panel-open {
     font-weight: 500;
     cursor: pointer;
     transition: background 0.15s, color 0.15s, box-shadow 0.15s;
-  }
+}
+
+.toggle-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
 
   .toggle-btn:hover:not(.active) {
     color: #374151;
@@ -135,4 +140,25 @@ body.panel-open {
 .month.active {
   color: #2196F3;
   font-weight: 500;
+}
+
+#timeline-container {
+  margin-top: 35spx;
+}
+
+.legend {
+  margin-top: 8px;
+}
+
+.legend-bar {
+  height: 10px;
+  border-radius: 4px;
+}
+
+.legend-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  margin-top: 2px;
 }

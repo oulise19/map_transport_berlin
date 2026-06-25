@@ -24,26 +24,33 @@
                 <label for="verkehrsmengen">Verkehrsmengen</label>
               </span>
 
-              <div id="mode-toggles">
-                <button class="toggle-btn active" name="mode" value="bike">Bike</button>
+              <div id="mode-toggles-ver">
+                <button class="toggle-btn active " name="mode" value="bike">Bike</button>
                 <button class="toggle-btn" name="mode" value="car">Car</button>
                 <button class="toggle-btn" name="mode" value="heavy">Heavy</button>
-              </div>      
-
-              <span class="layer-title">
-                <input type="checkbox" id="toggle-telraam" name="toggle-telraam" checked />
+              </div>  
+              
+              <input type="checkbox" id="toggle-telraam" name="toggle-telraam" checked />
                 <label for="telraam">Telraam</label>
               </span>
-                  <div id="mode-toggles">
-                    <button class="toggle-btn active" name="mode" value="bike">Bike</button>
-                    <button class="toggle-btn" name="mode" value="car">Car</button>
-                    <button class="toggle-btn" name="mode" value="heavy">Heavy</button>
-                  </div>
+
+              <div id="mode-toggles-tel">
+                <button class="toggle-btn active " name="mode" value="bike">Bike</button>
+                <button class="toggle-btn" name="mode" value="car">Car</button>
+                <button class="toggle-btn" name="mode" value="heavy">Heavy</button>
+              </div>   
+
+             
                 
                    
               </div>
+
+
             </div>
+
+            <p>Timeline </p>
           <div id="timeline-container">
+          
   <div id="timeline-scroll">
 
     <div class="year-block">
@@ -149,6 +156,24 @@
     </div>
 
   </div>
+  
+</div>
+</h3>Legend</h3>
+<p>Telraam :</p>
+  <div id="legend-tel" class="legend">
+  <div class="legend-bar" id="legend-bar-tel"></div>
+  <div class="legend-labels">
+    <span id="legend-min-tel">0</span>
+    <span id="legend-max-tel">0</span>
+  </div>
+</div>
+<p>Verkehrsmengen :</p>
+<div id="legend-ver" class="legend">
+  <div class="legend-bar" id="legend-bar-ver"></div>
+  <div class="legend-labels">
+    <span id="legend-min-ver">0</span>
+    <span id="legend-max-ver">0</span>
+  </div>
 </div>
 
         </div>
@@ -163,8 +188,13 @@
   <h3 id="panel-title">Segment Info</h3>
   <div id="panel-content"></div>
   
+
  
 </div>
+
+
+
+
   
 </body>
   <script src="map.js"></script>
