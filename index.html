@@ -6,51 +6,77 @@
   <link href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css" rel="stylesheet">
     <script src="https://unpkg.com/maplibre-gl/dist/maplibre-gl.js"></script>
     <script src="https://unpkg.com/deck.gl@latest/dist.min.js"></script>
-  
-  
-  
   <link rel="stylesheet" href = "style.css">
  
 </head>
 <body>
     <div id="left-panel">
-        <div id="description">
-        <h2>Berlin Traffic Map</h2>
-        <p>Text description</p>
-            <div>
-              <span class="layer-title">
-                
-                <input type="checkbox" id="toggle-verkehrsmengen" name="toggle-verkehrsmengen" checked />
-                <label for="verkehrsmengen">Verkehrsmengen</label>
-              </span>
+  <div id="description">
+    <h2>Berlin Traffic Map</h2>
+    <p>This map shows traffic counts (bike, cars and heavy vehicules) from different datasets (<a href="https://telraam.net/#11/52.5164/13.4293" target="_blank">Telraam</a> and from <a href="https://gdi.berlin.de/viewer/main/#" target="_blank" >Berlin Geoportal</a>).
+    You can choose your dataset and your transport mode 
+    Click on a segment to have additional information
+    Select the time period you want in the timeline part </p>
+    <div>
+      <h3>Layers</h3>
+      <span class="layer-title">
+        <input type="checkbox" id="toggle-verkehrsmengen" name="toggle-verkehrsmengen" checked />
+        <label for="verkehrsmengen">Verkehrsmengen</label>
+      </span>
+      <div id="mode-toggles-ver">
+        <button class="toggle-btn active" name="mode" value="bike">Bike</button>
+        <button class="toggle-btn" name="mode" value="car">Car</button>
+        <button class="toggle-btn" name="mode" value="heavy">Heavy</button>
+      </div>
 
-              <div id="mode-toggles-ver">
-                <button class="toggle-btn active " name="mode" value="bike">Bike</button>
-                <button class="toggle-btn" name="mode" value="car">Car</button>
-                <button class="toggle-btn" name="mode" value="heavy">Heavy</button>
-              </div>  
-              
-              <input type="checkbox" id="toggle-telraam" name="toggle-telraam" checked />
-                <label for="telraam">Telraam</label>
-              </span>
+      <input type="checkbox" id="toggle-telraam" name="toggle-telraam" checked />
+      <label for="telraam">Telraam</label>
 
-              <div id="mode-toggles-tel">
-                <button class="toggle-btn active " name="mode" value="bike">Bike</button>
-                <button class="toggle-btn" name="mode" value="car">Car</button>
-                <button class="toggle-btn" name="mode" value="heavy">Heavy</button>
-              </div>   
+      <div id="mode-toggles-tel">
+        <button class="toggle-btn active" name="mode" value="bike">Bike</button>
+        <button class="toggle-btn" name="mode" value="car">Car</button>
+        <button class="toggle-btn" name="mode" value="heavy">Heavy</button>
+      </div>
 
-             
-                
-                   
-              </div>
+      <input type="checkbox" id="toggle-survey" name="toggle-survey" checked />
+      <label for="survey">Survey</label>
 
+    </div>
 
-            </div>
+    <h3>Legend</h3>
+    <p>Telraam :</p>
+    <div id="legend-tel" class="legend">
+      <div class="legend-bar" id="legend-bar-tel"></div>
+      <div class="legend-labels">
+        <span id="legend-min-tel">0</span>
+        <span id="legend-max-tel">0</span>
+      </div>
+    </div>
+    <p>Verkehrsmengen :</p>
+    <div id="legend-ver" class="legend">
+      <div class="legend-bar" id="legend-bar-ver"></div>
+      <div class="legend-labels">
+        <span id="legend-min-ver">0</span>
+        <span id="legend-max-ver">0</span>
+      </div>
+    </div>
+  </div>
 
-            <p>Timeline </p>
-          <div id="timeline-container">
-          
+  
+</div>
+
+<div id="map"></div>
+
+<div id="right-panel" style="display:none">
+  
+  <button id="close-btn" aria-label="Close panel" type="button">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <h3 id="panel-title">Segment Info</h3>
+  <div id="panel-content"></div>
+</div>
+
+<div id="timeline-container">
   <div id="timeline-scroll">
 
     <div class="year-block">
@@ -156,41 +182,16 @@
     </div>
 
   </div>
+</div>
   
-</div>
-</h3>Legend</h3>
-<p>Telraam :</p>
-  <div id="legend-tel" class="legend">
-  <div class="legend-bar" id="legend-bar-tel"></div>
-  <div class="legend-labels">
-    <span id="legend-min-tel">0</span>
-    <span id="legend-max-tel">0</span>
-  </div>
-</div>
-<p>Verkehrsmengen :</p>
-<div id="legend-ver" class="legend">
-  <div class="legend-bar" id="legend-bar-ver"></div>
-  <div class="legend-labels">
-    <span id="legend-min-ver">0</span>
-    <span id="legend-max-ver">0</span>
-  </div>
-</div>
 
-        </div>
-    </div>
-  <div id="map"></div>
 
   
-  <div id="right-panel" style="display:none">
-  <button id="close-btn" aria-label="Close panel" type="button">
-    <span aria-hidden="true">&times;</span>
-  </button>
-  <h3 id="panel-title">Segment Info</h3>
-  <div id="panel-content"></div>
+
+
   
 
  
-</div>
 
 
 
