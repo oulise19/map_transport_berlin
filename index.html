@@ -13,10 +13,12 @@
     <div id="left-panel">
   <div id="description">
     <h2>Berlin Traffic Map</h2>
-    <p>This map shows traffic counts (bike, cars and heavy vehicules) from different datasets (<a href="https://telraam.net/#11/52.5164/13.4293" target="_blank">Telraam</a> and from <a href="https://gdi.berlin.de/viewer/main/#" target="_blank" >Berlin Geoportal</a>).
-    You can choose your dataset and your transport mode 
-    Click on a segment to have additional information
-    Select the time period you want in the timeline part </p>
+    <p>This map shows traffic counts (bike, cars and heavy vehicles) from different datasets 
+(<a href="https://telraam.net/#11/52.5164/13.4293" target="_blank">Telraam</a> and 
+<a href="https://gdi.berlin.de/viewer/main/#" target="_blank">Berlin Geoportal</a>).
+You can choose your dataset and your transport mode.
+Click on a segment to get more information.
+Select the time period you want in the timeline. </p>
     <div>
       <h3>Layers</h3>
       <span class="layer-title">
@@ -38,10 +40,48 @@
         <button class="toggle-btn" name="mode" value="heavy">Heavy</button>
       </div>
 
-      <input type="checkbox" id="toggle-survey" name="toggle-survey" checked />
-      <label for="survey">Survey</label>
+     <input type="checkbox" id="toggle-survey" name="toggle-survey" checked />
+<label for="toggle-survey">Survey</label>
 
-    </div>
+<div style="margin-top: 4px; margin-bottom: 8px;">
+  <span style="font-size: 0.8em; color: #666;">Topics:</span>
+  <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px;">
+    <label style="display:flex; align-items:center; gap:3px; background:#f0f0f0; padding:2px 7px; border-radius:12px; font-size:0.8em; cursor:pointer;">
+      <input type="checkbox" id="toggle-topic_noise" name="toggle-topic_noise" checked /> Noise
+    </label>
+    <label style="display:flex; align-items:center; gap:3px; background:#f0f0f0; padding:2px 7px; border-radius:12px; font-size:0.8em; cursor:pointer;">
+      <input type="checkbox" id="toggle-topic_air_quality" name="toggle-topic_air_quality" checked /> Air Quality
+    </label>
+    <label style="display:flex; align-items:center; gap:3px; background:#f0f0f0; padding:2px 7px; border-radius:12px; font-size:0.8em; cursor:pointer;">
+      <input type="checkbox" id="toggle-topic_safety" name="toggle-topic_safety" checked /> Safety
+    </label>
+    <label style="display:flex; align-items:center; gap:3px; background:#f0f0f0; padding:2px 7px; border-radius:12px; font-size:0.8em; cursor:pointer;">
+      <input type="checkbox" id="toggle-topic_barriers" name="toggle-topic_barriers" checked /> Barriers
+    </label>
+    <label style="display:flex; align-items:center; gap:3px; background:#f0f0f0; padding:2px 7px; border-radius:12px; font-size:0.8em; cursor:pointer;">
+      <input type="checkbox" id="toggle-topic_accessibility" name="toggle-topic_accessibility" checked /> Accessibility
+    </label>
+    <label style="display:flex; align-items:center; gap:3px; background:#f0f0f0; padding:2px 7px; border-radius:12px; font-size:0.8em; cursor:pointer;">
+      <input type="checkbox" id="toggle-topic_pt_connexion" name="toggle-topic_pt_connexion" checked /> Connexion
+    </label>
+    <label style="display:flex; align-items:center; gap:3px; background:#f0f0f0; padding:2px 7px; border-radius:12px; font-size:0.8em; cursor:pointer;">
+      <input type="checkbox" id="toggle-topic_space_distribution" name="toggle-topic_space_distribution" checked /> Space distrib.
+    </label>
+    <label style="display:flex; align-items:center; gap:3px; background:#f0f0f0; padding:2px 7px; border-radius:12px; font-size:0.8em; cursor:pointer;">
+      <input type="checkbox" id="toggle-topic_cond_ped" name="toggle-topic_cond_ped" checked /> Cond. ped.
+    </label>
+    <label style="display:flex; align-items:center; gap:3px; background:#f0f0f0; padding:2px 7px; border-radius:12px; font-size:0.8em; cursor:pointer;">
+      <input type="checkbox" id="toggle-topic_cond_cycl" name="toggle-topic_cond_cycl" checked /> Cond. cyclist
+    </label>
+    <label style="display:flex; align-items:center; gap:3px; background:#f0f0f0; padding:2px 7px; border-radius:12px; font-size:0.8em; cursor:pointer;">
+      <input type="checkbox" id="toggle-topic_atmosphere" name="toggle-topic_atmosphere" checked /> Atmosphere
+    </label>
+    <label style="display:flex; align-items:center; gap:3px; background:#f0f0f0; padding:2px 7px; border-radius:12px; font-size:0.8em; cursor:pointer;">
+      <input type="checkbox" id="toggle-topic_other" name="toggle-topic_other" checked /> Other
+    </label>
+   </div>
+</div>
+</div>
 
     <h3>Legend</h3>
     <p>Telraam :</p>
@@ -62,20 +102,7 @@
     </div>
   </div>
 
-  
-</div>
-
-<div id="map"></div>
-
-<div id="right-panel" style="display:none">
-  
-  <button id="close-btn" aria-label="Close panel" type="button">
-    <span aria-hidden="true">&times;</span>
-  </button>
-  <h3 id="panel-title">Segment Info</h3>
-  <div id="panel-content"></div>
-</div>
-
+  <h3>Timeline</h3>
 <div id="timeline-container">
   <div id="timeline-scroll">
 
@@ -184,12 +211,21 @@
   </div>
 </div>
   
-
-
   
+</div>
 
+<div id="map"></div>
 
+<div id="right-panel" style.display = "block">
   
+  <button id="close-btn" aria-label="Close panel" type="button">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <h3 id="panel-title">Segment Info</h3>
+  <div id="panel-content"></div>
+</div>
+
+
 
  
 
