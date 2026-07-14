@@ -1,3 +1,4 @@
+
 const {DeckGL, GeoJsonLayer} = deck;
 let currentZoom = 11;
 let currentProps = null;
@@ -12,11 +13,11 @@ let activeModeVerkehr = 'bike';
 let telraamData = null;
 let verkehrData = null;
 let deckGL;
-
+console.log('panel-open on load:', document.body.classList.contains('panel-open'));
 async function loadData() {
   const [telRes, verRes, surRes] = await Promise.all([
     fetch('data/tel_all_years.geojson'),
-    fetch('data/all_verkehrsmengen_2023.geojson'),
+    fetch('data/all_verkehrsmengen_2023_new.geojson'),
     fetch('data/sites_mit_demographics_bereinigt_v2.geojson'),
   
   ]);
@@ -42,13 +43,23 @@ loadData().then(() => {
         },
         onClick: (info) => {
         if (!info.object) return;
-        const layerId = info.layer.id;
-        console.log(info.object.properties);
-        const layerToggle = document.getElementById(`toggle-${layerId}`);
-        if (layerToggle && !layerToggle.checked) return; 
 
-        renderPanel(info.object.properties, layerId);
-        },
+        const layerId = info.layer.id;
+        const props = info.object.properties;
+
+        const layerToggle = document.getElementById(`toggle-${layerId}`);
+        if (layerToggle && !layerToggle.checked) return;
+
+        currentLayerId = layerId;
+
+        const configTel = modeConfig[activeModeTelraam];
+        const configVer = modeConfig[activeModeVerkehr];
+
+        const valuetel = getAveragedValue(props, configTel.telraam);
+        const value_ver = props[configVer.verkehr];
+
+        renderPanel(props, layerId, { valuetel, value_ver, configTel, configVer });
+      },
         getTooltip: getTooltip,
         layers: getLayers(),
         parameters: {
@@ -61,6 +72,12 @@ loadData().then(() => {
 
   });
 });
+
+setTimeout(() => {
+  const map = deckGL.getMapboxMap();
+  map.setLayoutProperty('place_city_r5', 'visibility', 'none');
+}, 1000);
+
 const modeConfig = {
   'bike': {
     telraam: 'bike_total', verkehr: 'dtvw_rad', label: 'Bikes',
@@ -69,7 +86,7 @@ const modeConfig = {
     rangeVerkehr: [210, 8900], zoomThreshold : 'II',
   },
   'car': {
-    telraam: 'car_total', verkehr: 'dtvw_kfz', label: 'Cars',
+    telraam: 'car_total', verkehr: 'dtvw_kfz_new', label: 'Cars',
     colorTelraam: '#b91bbe', colorVerkehr: '#c46a04',
     rangeTelraam: [0.0, 10822.3],
     rangeVerkehr: [0, 65200], zoomThreshold : 'II',
@@ -109,7 +126,7 @@ function getLayers() {
         },
       beforeId: 'waterway_label',
       updateTriggers: {
-      getLineColor: [activeModeTelraam, rangeStart, rangeEnd], 
+      getLineColor: [activeModeTelraam, rangeStart, rangeEnd]
       },
       lineWidthMinPixels: 4,
       pickable: true,
@@ -153,11 +170,6 @@ function getLayers() {
       getFillColor: (feature) => {
         return isTopicVisible(feature.properties) ? [250, 34, 34, 200] : [0, 0, 0, 0];
       },
-      // updateTriggers: {
-      //   getFillColor: document.querySelectorAll('[id^="toggle-topic_"]')
-      //     ? Array.from(document.querySelectorAll('[id^="toggle-topic_"]')).map(cb => cb.checked)
-      //     : []
-      // },
       updateTriggers: {
       getFillColor: [
         document.getElementById('toggle-survey')?.checked,
@@ -237,6 +249,7 @@ document.querySelectorAll('#mode-toggles .toggle-btn').forEach(btn => {
     header = `<p><strong>Situation:</strong> ${props.observation_clean}</p>
               <p><strong>Theme:</strong> ${props.suggestion_clean}</p>`;
   }
+  
   document.body.classList.add('panel-open');
   document.getElementById('right-panel').style.display = 'block';
   const panel = document.getElementById('right-panel');
@@ -252,9 +265,18 @@ document.querySelectorAll('#mode-toggles .toggle-btn').forEach(btn => {
   }, 150);
 }
 
+document.body.classList.add('panel-open');    // open
+document.body.classList.remove('panel-open'); // close
+
+function refreshPanelIfOpen() {
+  if (currentProps && currentLayerId && document.body.classList.contains('panel-open')) {
+    renderPanel(currentProps, currentLayerId);
+  }
+}
+
 //graduation color
 function getColorScale(value, min, max, baseColor) {
-  if (value === null || value === undefined) return [160, 160, 160, 255];
+  if (value === null || value === undefined) return [0, 0, 0, 0];
   
   let t = Math.max(0, Math.min(1, (value - min) / (max - min)));
   t = Math.pow(t, 0.6); // pulls mid values up, makes more segments look "strong"
@@ -296,6 +318,17 @@ document.addEventListener('DOMContentLoaded', () => {
       if (currentProps) renderPanel(currentProps, currentLayerId);
     });
   });
+
+
+document.getElementById('collapse-btn').addEventListener('click', () => {
+  document.body.classList.toggle('panel-collapsed');
+});
+
+document.querySelectorAll('.accordion-header').forEach(header => {
+  header.addEventListener('click', () => {
+    header.parentElement.classList.toggle('collapsed');
+  });
+});
 
 document.getElementById('toggle-telraam').addEventListener('change', (e) => {
   document.querySelectorAll('#mode-toggles-tel .toggle-btn').forEach(btn => {
@@ -379,8 +412,9 @@ function getPercentile(values, p) {
   return sorted[index];
 }
 
+//tooltip
 function getTooltip({ object, layer }) {
-  //console.log('getTooltip called', object, layer);
+  
   if (!object || currentZoom < 12) return null;
   const props = object.properties;
   const layerId = layer.id;
@@ -392,6 +426,12 @@ function getTooltip({ object, layer }) {
 
   const valuetel = getAveragedValue(props, configTel.telraam);
   const value_ver = props[configVer.verkehr];
+ //console.log('getTooltip called', object, layer);
+  //console.log('configVer.verkehr:', configVer.verkehr);
+ // console.log('all prop keys:', Object.keys(props));
+ // console.log('value_ver:', value_ver);
+
+ //console.log('switching on layerId:', layerId, 'vs layer.id:', layer.id);
 
   switch (layer.id) {
     case 'telraam':
@@ -406,6 +446,8 @@ function getTooltip({ object, layer }) {
       return null;
   }
 }
+
+
 document.addEventListener('DOMContentLoaded', () => {
   highlightRange();
 
@@ -436,6 +478,7 @@ document.addEventListener('DOMContentLoaded', () => {
       highlightRange();
       deckGL.setProps({ layers: getLayers() });
       if (currentProps) renderPanel(currentProps, currentLayerId);
+       refreshPanelIfOpen();
     });
   });
 });
@@ -485,7 +528,7 @@ function updateLegend(layerType) {
   const darkColor = `rgb(${getColorScale(max, min, max, baseColor).slice(0,3).join(',')})`;
 
   if (isTel) {
-    bar.style.background = `linear-gradient(to right, rgb(160,160,160) 0%, rgb(160,160,160) 8%, ${lightColor} 12%, ${darkColor} 100%)`;
+    bar.style.background = `linear-gradient(to right, ${lightColor}, ${darkColor})`;
   } else {
     bar.style.background = `linear-gradient(to right, ${lightColor}, ${darkColor})`;
   }
@@ -538,34 +581,8 @@ function getLabelData(data, baseField, isTel) {
   }).filter(d => d !== null);
 }
 
-// function isTopicVisible(props) {
-//   for (const key of Object.keys(props)) {
-//     if (key.startsWith('topic_') && props[key] == 1) {
-//       const checkbox = document.getElementById(`toggle-${key}`);
-//       if (checkbox && checkbox.checked) {
-//        // console.log(`${key}: checked:`, checkbox?.checked);
-//         return true;
-//       }
-//     }
-//   }
-//   //console.log('no visible topic found — hiding point');
-//   return false;
-// }
 
-// function isTopicVisible(props) {
-//   const allCheckbox = document.getElementById('toggle-survey');
-//   if (allCheckbox && allCheckbox.checked) return true; // show all regardless of topics
-  
-//   for (const key of Object.keys(props)) {
-//     if (key.startsWith('topic_') && props[key] == 1) {
-//       const checkbox = document.getElementById(`toggle-${key}`);
-//       console.log(`${key}: checked:`, checkbox?.checked);
-//       if (checkbox && checkbox.checked) return true;
-//     }
-//   }
-//   console.log('no visible topic found — hiding point');
-//   return false;
-// }
+
 
 function isTopicVisible(props) {
   const allCheckbox = document.getElementById('toggle-survey');
