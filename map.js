@@ -5,7 +5,7 @@ let currentProps = null;
 let activeMode = 'bike';
 let activeMonth = '2025_01';
 let rangeStart = '2025_01';
-let rangeEnd = null; 
+let rangeEnd = '2025_12'; 
 
 let activeModeTelraam = 'bike';
 let activeModeVerkehr = 'bike';
@@ -66,11 +66,13 @@ loadData().then(() => {
         depthTest: false
         }    
     }); 
-  document.getElementById('close-btn').addEventListener('click', () => {
-  document.getElementById('right-panel').style.display = 'none';
-  document.body.classList.remove('panel-open');
+  // document.getElementById('close-btn').addEventListener('click', () => {
+  // document.getElementById('right-panel').style.display = 'none';
 
-  });
+  // document.body.classList.remove('panel-open');
+  document.getElementById('close-btn').addEventListener('click', closeRightPanel);
+
+  // });
 });
 
 setTimeout(() => {
@@ -109,7 +111,7 @@ function hexToRgb(hex) {
 }
 
 function getLayers() {
-    //console.log('initial activeMonth:', activeMonth)
+    
     const telraamVisible = document.getElementById('toggle-telraam').checked;
     const verkehrVisible = document.getElementById('toggle-verkehrsmengen').checked;
     const surveyVisible = document.getElementById('toggle-survey').checked;
@@ -250,8 +252,9 @@ document.querySelectorAll('#mode-toggles .toggle-btn').forEach(btn => {
               <p><strong>Theme:</strong> ${props.suggestion_clean}</p>`;
   }
   
-  document.body.classList.add('panel-open');
-  document.getElementById('right-panel').style.display = 'block';
+  // document.body.classList.add('panel-open');
+  // document.getElementById('right-panel').style.display = 'block';
+  
   const panel = document.getElementById('right-panel');
   panel.classList.add('refreshing');
   setTimeout(() => {
@@ -265,8 +268,9 @@ document.querySelectorAll('#mode-toggles .toggle-btn').forEach(btn => {
   }, 150);
 }
 
-document.body.classList.add('panel-open');    // open
-document.body.classList.remove('panel-open'); // close
+function closeRightPanel() {
+  document.body.classList.remove('panel-open'); // triggers the CSS width transition back to 0
+}
 
 function refreshPanelIfOpen() {
   if (currentProps && currentLayerId && document.body.classList.contains('panel-open')) {
