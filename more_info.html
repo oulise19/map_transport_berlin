@@ -8,13 +8,21 @@
 </head>
 <body>
   <main class="info-page">
-    <h2>More on traffic data used for the website</h2>
-    <p class="subtitle">Pipeline used for Telraam data</p>
+    <div class="lang-toggle">
+  <button data-lang="en" class="active">EN</button>
+  <span>|</span>
+  <button data-lang="de">DE</button>
+</div>
+    <a href="index.html" target="_self" class="info-link2">Go back</a>
+    <h2 id="title"></h2>
+    <!-- <p class="subtitle">Pipeline used for Telraam data</p> -->
 
     <section>
-      <h3>Data sources</h3>
-      <p>In this visualization, we present data from two different sources. The Geoportal data comes from the Geoportal of Berlin. No processing was applied to it, except for car traffic, which was calculated by subtracting <code>dtvw_lkw</code> (heavy vehicles only) from <code>dtvw_kfz</code> (all vehicles).</p>
-      <p>The second dataset comes from the Telraam platform, which uses sensors to collect raw counts of cyclists, pedestrians, cars, and heavy vehicles. This data is accessible via an API or the <a href="#">Berlin Zählt Mobilität website</a>, though only as raw hourly counts.</p>
+
+      <h3 id= "datenquellen-heading"></h3>
+
+      <p id="intro"></p>
+      <p id="intro2"></p>
     </section>
 
     <section>
@@ -23,19 +31,43 @@
         <strong>DTVw</strong> — Durchschnittlicher Tagesverkehr werktags (Average Daily Traffic on workdays): the average number of vehicles and cyclists passing a road section on a typical weekday, excluding public holidays.
       </div>
       <p>To bring Telraam data closer to this metric, we processed the raw counts by calculating the average number of vehicles and cyclists per segment on a typical weekday. This was done in Python using Pandas — grouping by segment, weekday, and hour, then averaging.</p>
-      <p>Public holidays were excluded using the <code>holidays</code> library. School holidays, which have no equivalent library, were excluded manually using dates from the <a href="#">official Berlin website</a>.</p>
+      <p>Public holidays were excluded using the <code>holidays</code> library. 
+        School holidays, which have no equivalent library, were excluded manually using dates 
+        from the <a href="#">official Berlin website</a>.
+      You can find the detailed processing steps and our pipeline in the <a href="https://github.com/berlin-zaehlt/traffic-data-processing">GitHub repository</a>.</p>
     </section>
 
     <section>
-      <h3>Limitations</h3>
-      <p>The processed Telraam data is more comparable to Geoportal data, but it's still not as comprehensive — it only covers segments with installed sensors, and may vary due to sensor placement and calibration. It should be interpreted with caution, alongside other data sources.</p>
+      <h3>Limitations for Telraam data</h3>
+      <p>The Telraam data has been processed into a standardized format that is
+        better suited for visualization alongside the Geoportal data on the map.
+        However it's still not as comprehensive — it only covers segments with installed sensors, 
+        and may vary due to sensor placement and calibration. It should be interpreted with 
+        caution.</p>
     </section>
 
     <section>
       <h3>Survey</h3>
-      <p>The survey was written by Marek Stierts, with responses collected by students from Humboldt University Berlin. Two locations were chosen: one near the A100 extension, and another in Adlershof, close to the university campus.</p>
-      <p>The survey was conducted as a questionnaire. Some participant answers and identifying information are not included in this visualization.</p>
+      <p>The survey was written by Marek Sierts, with responses collected by students from Humboldt University Berlin. 
+        Two locations were chosen : one near the A100 extension (Alt-Treptow) and another in Adlershof, close to the university campus.</p>
+      <p>The survey was conducted as a questionnaire. Some participant answers and identifying information 
+        are not included in this visualization.</p>
     </section>
   </main>
 </body>
+<script src="language.js"></script>
 </html>
+
+      <!-- <p data-de="In dieser Visualisierung präsentieren wir Daten aus verschiedenen
+       Quellen. Die Geoportal-Daten stammen vom Geoportal Berlin. 
+       Es wurde keine Verarbeitung angewendet, außer für den Autoverkehr,
+        der berechnet wurde, indem <code>dtvw_lkw</code> (nur schwere Fahrzeuge) von 
+        <code>dtvw_kfz</code> (alle Fahrzeuge) subtrahiert wurde.</p>">
+        In this visualization, we present data from different sources. The Geoportal data comes from the Geoportal of Berlin. 
+        No processing was applied to it, except for car traffic, which was calculated by subtracting 
+        <code>dtvw_lkw</code> (heavy vehicles only) from <code>dtvw_kfz</code> (all vehicles).</p>
+      <p>The second dataset comes from the Telraam platform, which uses sensors to collect counts of cyclists, pedestrians, cars, and heavy vehicles. 
+        This data is accessible via an API or the <a href="http://www.berlin-zaehlt.de/">Berlin Zählt 
+          Mobilität website</a>, 
+        though only as raw hourly counts. This required processing to make it appear on the map.
+      The last data source is a survey conducted by students from Humboldt University Berlin.</p> -->

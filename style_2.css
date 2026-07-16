@@ -53,3 +53,43 @@ a {
 a:hover {
   color: #6b5228;
 }
+
+.info-link2 {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 300;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 25px;
+}
+
+.info-link2::after {
+   content: "↩";
+  transition: transform 0.2s ease;
+}
+
+.info-link2:hover::after {
+  transform: translateX(4px);
+}
+
+.info-link2:hover {
+  text-decoration: underline;
+}
+
+.lang-toggle {
+  font-size: 13px;
+  color: #777;
+}
+.lang-toggle button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #777;
+  font-size: 13px;
+  padding: 0 4px;
+}
+.lang-toggle button.active {
+  color: #1a1a1a;
+  font-weight: 700;
+}

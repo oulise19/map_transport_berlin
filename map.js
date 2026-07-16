@@ -9,11 +9,23 @@ let rangeEnd = '2025_12';
 
 let activeModeTelraam = 'bike';
 let activeModeVerkehr = 'bike';
+let activeModeSurvey = 'survey';
 
 let telraamData = null;
 let verkehrData = null;
+let surveydata = null;
 let deckGL;
-console.log('panel-open on load:', document.body.classList.contains('panel-open'));
+
+let currentViewState = {
+  longitude: 13.4,
+  latitude: 52.52,
+  zoom: 11
+};
+
+let selectedFeatureId = null;
+
+const INITIAL_VIEW_STATE = { ...currentViewState };
+
 async function loadData() {
   const [telRes, verRes, surRes] = await Promise.all([
     fetch('data/tel_all_years.geojson'),
@@ -27,19 +39,17 @@ async function loadData() {
 }
 
 loadData().then(() => {
+  console.log('Layers:', getLayers().map(l => l.id));
   deckGL = new deck.DeckGL({
-    container: 'map',
+        container: 'map',
         mapStyle: 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json',
-        initialViewState: {
-            longitude: 13.4,
-            latitude: 52.52,
-            zoom: 11
-        },
+        viewState: currentViewState, // instead of initialViewState
         controller: true,
         pickingRadius: 10,
         onViewStateChange: ({viewState}) => {
-        currentZoom = viewState.zoom;
-        deckGL.setProps({ layers: getLayers() });
+          currentViewState = viewState;
+          currentZoom = viewState.zoom;
+          deckGL.setProps({ viewState: currentViewState, layers: getLayers() });
         },
         onClick: (info) => {
         if (!info.object) return;
@@ -51,7 +61,7 @@ loadData().then(() => {
         if (layerToggle && !layerToggle.checked) return;
 
         currentLayerId = layerId;
-
+        selectedFeatureId = props.id ?? info.index;
         const configTel = modeConfig[activeModeTelraam];
         const configVer = modeConfig[activeModeVerkehr];
 
@@ -59,6 +69,7 @@ loadData().then(() => {
         const value_ver = props[configVer.verkehr];
 
         renderPanel(props, layerId, { valuetel, value_ver, configTel, configVer });
+        deckGL.setProps({ layers: getLayers() });
       },
         getTooltip: getTooltip,
         layers: getLayers(),
@@ -66,13 +77,7 @@ loadData().then(() => {
         depthTest: false
         }    
     }); 
-  // document.getElementById('close-btn').addEventListener('click', () => {
-  // document.getElementById('right-panel').style.display = 'none';
-
-  // document.body.classList.remove('panel-open');
   document.getElementById('close-btn').addEventListener('click', closeRightPanel);
-
-  // });
 });
 
 setTimeout(() => {
@@ -83,13 +88,13 @@ setTimeout(() => {
 const modeConfig = {
   'bike': {
     telraam: 'bike_total', verkehr: 'dtvw_rad', label: 'Bikes',
-    colorTelraam: '#e844e8', colorVerkehr: '#e6611f',
+    colorTelraam: '#e844e8', colorVerkehr: '#c9530f',
     rangeTelraam: [0.0, 4167.1],
     rangeVerkehr: [210, 8900], zoomThreshold : 'II',
   },
   'car': {
-    telraam: 'car_total', verkehr: 'dtvw_kfz_new', label: 'Cars',
-    colorTelraam: '#b91bbe', colorVerkehr: '#c46a04',
+    telraam: 'car_total', verkehr: 'dtw_kfz_new', label: 'Cars',
+    colorTelraam: '#b91bbe', colorVerkehr: '#d67405',
     rangeTelraam: [0.0, 10822.3],
     rangeVerkehr: [0, 65200], zoomThreshold : 'II',
   },
@@ -101,6 +106,14 @@ const modeConfig = {
   }
 };
 
+const justiceColorMap = {
+  "very just": [46, 125, 50, 255],       // green
+  "somewhat just": [139, 195, 74, 255],  // light green
+  "neither": [255, 235, 59, 255],        // yellow
+  "somewhat unjust": [255, 152, 0, 255], // orange
+  "very unjust": [229, 57, 53, 255]      // red
+};
+
 
 function hexToRgb(hex) {
   return [
@@ -110,11 +123,14 @@ function hexToRgb(hex) {
   ];
 }
 
+
 function getLayers() {
-    
+
     const telraamVisible = document.getElementById('toggle-telraam').checked;
     const verkehrVisible = document.getElementById('toggle-verkehrsmengen').checked;
     const surveyVisible = document.getElementById('toggle-survey').checked;
+    
+    
   return [
     new GeoJsonLayer({
       id: 'telraam',
@@ -135,51 +151,83 @@ function getLayers() {
       visible: telraamVisible,
     }),
     new GeoJsonLayer({
-            id: 'verkehrsmengen',
-            data: verkehrData,
-            getLineColor: (feature) => {
-              const field = modeConfig[activeModeVerkehr].verkehr;
-              const value = feature.properties[field];
-              const threshold = modeConfig[activeModeVerkehr].zoomThreshold;
-              const rank_street = feature.properties['strklasse1'];
-               if (currentZoom < 12 && rank_street > threshold) {
-                    return [0, 0, 0, 0];
-               }
-              const [min, max] = modeConfig[activeModeVerkehr].rangeVerkehr;
-              const color_ver = getColorScale(value, min, max, modeConfig[activeModeVerkehr].colorVerkehr);
-              return color_ver;
-            },
-            beforeId: 'waterway_label',
-            updateTriggers: {
-              getLineColor: [activeModeVerkehr, currentZoom],
-            },
-            lineWidthMinPixels: 3,
-            pickable: true,
-            visible: verkehrVisible,
-    }),
+    id: 'verkehrsmengen',
+    data: verkehrData,
+
+    getLineColor: (feature, {index}) => {
+      const featureId = feature.properties.id ?? index;
+      if (featureId === selectedFeatureId) {
+        return [255, 255, 0, 255];
+      }
+      const field = modeConfig[activeModeVerkehr].verkehr;
+      const value = feature.properties[field];
+      const threshold = modeConfig[activeModeVerkehr].zoomThreshold;
+      const rank_street = feature.properties['strklasse1'];
+      if (currentZoom < 12 && rank_street > threshold) {
+        return [0, 0, 0, 0];
+      }
+      const [min, max] = modeConfig[activeModeVerkehr].rangeVerkehr;
+      const color_ver = getColorScale(value, min, max, modeConfig[activeModeVerkehr].colorVerkehr);
+      return color_ver;
+    },
+
+    getLineWidth: (feature, {index}) => {
+      const featureId = feature.properties.id ?? index;
+      return featureId === selectedFeatureId ? 3 : 1;
+    },
+
+    beforeId: 'waterway_label',
+    updateTriggers: {
+      getLineColor: [activeModeVerkehr, currentZoom, selectedFeatureId],
+      getLineWidth: [selectedFeatureId]
+    },
+    lineWidthMinPixels: 3,
+    pickable: true,
+    visible: verkehrVisible,
+      }),
+
     new GeoJsonLayer({
       id: 'survey',
       data: surveydata, 
-      beforeId: 'waterway_label',
+      // beforeId: 'waterway_label',
+      beforeId: undefined,
       visible: surveyVisible,
       pointType: 'circle',
       getPointRadius: 15,
       pointRadiusMinPixels: 5,
       pointRadiusMaxPixels: 15,
-      getFillColor: [250, 34, 34, 200],
-      stroked: false,
+      stroked: true,
       pickable: true,
       getFillColor: (feature) => {
-        return isTopicVisible(feature.properties) ? [250, 34, 34, 200] : [0, 0, 0, 0];
+        if (!isTopicVisible(feature.properties)) {
+          return [0, 0, 0, 0];
+        }
+        const category = feature.properties.justice_perception;
+        return justiceColorMap[category] || [150, 150, 150, 200];
       },
-      updateTriggers: {
-      getFillColor: [
-        document.getElementById('toggle-survey')?.checked,
-        ...Array.from(document.querySelectorAll('[id^="toggle-topic_"]'))
-          .map(cb => cb.checked)
-      ]
-    }
-    }),
+
+      stroked: true,
+      getLineColor: (feature) => {
+        return isTopicVisible(feature.properties) ? [255, 255, 255, 255] : [0, 0, 0, 0];
+      },
+      getLineWidth:1,
+      lineWidthUnits: 'pixels',
+      lineWidthMinPixels: 0.6,
+      lineWidthMaxPixels: 0.6,
+
+        updateTriggers: {
+          getFillColor: [
+            document.getElementById('toggle-survey')?.checked,
+            ...Array.from(document.querySelectorAll('[id^="toggle-topic_"]'))
+              .map(cb => cb.checked)
+          ],
+          getLineColor: [
+            document.getElementById('toggle-survey')?.checked,
+            ...Array.from(document.querySelectorAll('[id^="toggle-topic_"]'))
+              .map(cb => cb.checked)
+          ]
+        }
+      }),
     new deck.TextLayer({
       id: 'telraam-labels',
       data: getLabelData(telraamData, modeConfig[activeModeTelraam].telraam, true),
@@ -200,7 +248,7 @@ function getLayers() {
       getText: d => d.text,
       sizeUnits: 'meters',
       sizeMinPixels: 8,
-      sizeMaxPixels: 12,
+      sizeMaxPixels: 10,
       getAngle: d => d.angle,
       getColor: [0, 0, 0, 255],
       visible: currentZoom >= 14.7 && document.getElementById('toggle-verkehrsmengen').checked,
@@ -210,21 +258,6 @@ function getLayers() {
     }),
   ];
 }
-
-document.querySelectorAll('#mode-toggles .toggle-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-    activeMode = btn.value;
-    document.querySelectorAll('#mode-toggles .toggle-btn').forEach(b => {
-        b.classList.remove('active');
-        b.style.removeProperty('--active-color');
-    });
-    btn.classList.add('active');
-    btn.style.setProperty('--active-color', modeConfig[activeMode].colorTelraam);
-
-    deckGL.setProps({ layers: getLayers() }); 
-    if (currentProps) renderPanel(currentProps, currentLayerId);
-    });
-});
 
   function renderPanel(props, layerId) {
   currentProps = props;
@@ -259,7 +292,7 @@ document.querySelectorAll('#mode-toggles .toggle-btn').forEach(btn => {
   panel.classList.add('refreshing');
   setTimeout(() => {
   document.getElementById('panel-content').innerHTML = `
-    ${layerId !== 'survey' ? `<p><strong>${config.label}:</strong> ${value ?? '—'}</p>` : ''}
+    ${layerId !== 'survey' ? `<p><strong>${config.label}:</strong> ${value ?? 'No data for this period'}</p>` : ''}
     ${header}
   `;
     document.body.classList.add('panel-open');
@@ -269,7 +302,9 @@ document.querySelectorAll('#mode-toggles .toggle-btn').forEach(btn => {
 }
 
 function closeRightPanel() {
-  document.body.classList.remove('panel-open'); // triggers the CSS width transition back to 0
+  document.body.classList.remove('panel-open');
+  selectedFeatureId = null;
+  deckGL.setProps({ layers: getLayers() });
 }
 
 function refreshPanelIfOpen() {
@@ -296,6 +331,22 @@ function getColorScale(value, min, max, baseColor) {
     255
   ];
 }
+
+document.querySelectorAll('#mode-toggles .toggle-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+    activeMode = btn.value;
+    document.querySelectorAll('#mode-toggles .toggle-btn').forEach(b => {
+        b.classList.remove('active');
+        b.style.removeProperty('--active-color');
+    });
+    btn.classList.add('active');
+    btn.style.setProperty('--active-color', modeConfig[activeMode].colorTelraam);
+
+    deckGL.setProps({ layers: getLayers() }); 
+    if (currentProps) renderPanel(currentProps, currentLayerId);
+    });
+});
+
 //for the month scale
 document.addEventListener('DOMContentLoaded', () => {
     const defaultBtnTelraam = document.querySelector('#mode-toggles-tel .toggle-btn[value="bike"]');
@@ -427,24 +478,26 @@ function getTooltip({ object, layer }) {
 
   const configTel = modeConfig[activeModeTelraam];
   const configVer = modeConfig[activeModeVerkehr];
+  const configSur = modeConfig[activeModeSurvey];
 
   const valuetel = getAveragedValue(props, configTel.telraam);
   const value_ver = props[configVer.verkehr];
- //console.log('getTooltip called', object, layer);
-  //console.log('configVer.verkehr:', configVer.verkehr);
- // console.log('all prop keys:', Object.keys(props));
- // console.log('value_ver:', value_ver);
-
- //console.log('switching on layerId:', layerId, 'vs layer.id:', layer.id);
+  const observation = props.observation_clean;
+  const theme = props.suggestion_clean;
 
   switch (layer.id) {
     case 'telraam':
       return {
-        html: `<p>${configTel.label}: ${valuetel ?? '—'}</p>`
+        html: `<p>${layerId !== 'survey' ? `<p><strong>${configTel.label}:</strong> ${valuetel ?? 'No data for the period selected'}</p>` : ''}</p>`
       };
     case 'verkehrsmengen':
       return {
         html: `<p>${configVer.label}: ${value_ver ?? '—'}</p>`
+      };
+    case 'survey':
+      return {
+        html: `<p><strong>Situation:</strong> ${observation}</p>
+        <p><strong>Theme:</strong> ${theme}</p>`
       };
     default:
       return null;
@@ -574,6 +627,10 @@ function getLineAngle(geometry) {
 }
 
 function getLabelData(data, baseField, isTel) {
+  if (!data) {
+    console.error('getLabelData called with null/undefined data. baseField:', baseField, 'isTel:', isTel);
+    return [];
+  }
   return data.features.map(f => {
     const value = isTel
       ? getAveragedValue(f.properties, baseField)
@@ -584,9 +641,6 @@ function getLabelData(data, baseField, isTel) {
     return { position: pos, text: String(Math.round(value)), angle };
   }).filter(d => d !== null);
 }
-
-
-
 
 function isTopicVisible(props) {
   const allCheckbox = document.getElementById('toggle-survey');
@@ -600,3 +654,42 @@ function isTopicVisible(props) {
   }
   return false;
 }
+
+//zoom buttons 
+function zoomBy(delta) {
+  currentViewState = {
+    ...currentViewState,
+    zoom: currentViewState.zoom + delta,
+    transitionDuration: 200
+  };
+  deckGL.setProps({ viewState: currentViewState });
+}
+
+document.getElementById('zoom-in-btn').addEventListener('click', () => zoomBy(1));
+document.getElementById('zoom-out-btn').addEventListener('click', () => zoomBy(-1));
+
+document.getElementById('home-btn').addEventListener('click', () => {
+  currentViewState = {
+    ...INITIAL_VIEW_STATE,
+    transitionDuration: 300
+  };
+  deckGL.setProps({ viewState: currentViewState });
+});
+
+
+//active timeline 
+window.addEventListener('DOMContentLoaded', () => {
+  const activeTick = document.querySelector(`.tick[data-month="${rangeStart}"]`);
+  const container = document.getElementById('timeline-container');
+
+  if (activeTick && container) {
+    const containerRect = container.getBoundingClientRect();
+    const tickRect = activeTick.getBoundingClientRect();
+
+    // how far the tick is from the container's current scroll position
+    const offset = tickRect.left - containerRect.left + container.scrollLeft;
+
+    // center it: offset minus half the container's width, plus half the tick's width
+    container.scrollLeft = offset - container.clientWidth / 2 + activeTick.clientWidth / 2;
+  }
+});
