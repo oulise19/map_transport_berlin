@@ -10,10 +10,6 @@ export async function loadData() {
     fetch('data/sites_mit_demographics_bereinigt_v2.geojson'),
   
   ]);
-//   telraamData = await telRes.json();
-//   verkehrData = await verRes.json();
-//   surveydata = await surRes.json();
-
   setTelraamData(await telRes.json());
   setVerkehrData(await verRes.json());
   setSurveyData(await surRes.json());
