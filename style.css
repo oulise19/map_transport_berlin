@@ -199,17 +199,19 @@ label {
   
 } */
 
-.legend {
+/* .legend {
   width: 100%;
   max-width: 600px;
   margin: 20px auto;
   font-family: Arial, sans-serif;
-}
+} */
 
 .legend-bar_sur {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  justify-items: center;
+  grid-template-rows: repeat(5, 1fr);
+  grid-auto-flow: column;
+   row-gap: 12px;
+  justify-items: left;
   align-items: center;
 }
 
@@ -223,7 +225,10 @@ label {
 
 .legend-sur-labels {
   display: grid;
-  grid-template-columns: repeat(5, 1.5fr);
+  grid-template-rows: repeat(5, 1fr);
+  grid-auto-flow: column;
+  align-items: center;
+  row-gap: 12px;
   margin-top: 8px;
   margin-right: 8px;
 }
