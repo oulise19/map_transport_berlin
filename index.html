@@ -20,23 +20,23 @@
   <div style="text-align: right;">
   
 </div>
-    <h2>Berlin Traffic Map</h2>
+    <h2>Verkehrskarte von Berlin</h2>
     <div class="accordion">
-  <div class="accordion-header">Description<span class="accordion-arrow">▾</span></div>
+  <div class="accordion-header">Beschreibung<span class="accordion-arrow">▾</span></div>
   <div class="accordion-body">
-    <p>This map shows traffic counts (bike, cars and heavy vehicles) from different datasets 
+    <p>Diese Karte zeigt Verkehrszahlen (Fahrräder, Pkw und Schwerlastfahrzeuge) aus verschiedenen Datensätzen. 
 (<a href="https://telraam.net/#11/52.5164/13.4293" target="_blank">Telraam</a> and 
-<a href="https://gdi.berlin.de/viewer/main/#" target="_blank">Berlin Geoportal</a>).
-You can choose your dataset and your transport mode.
-Click on a segment to get more information.
-Select the time period you want in the timeline. 
-You can zoom in if you want more information.</p>
+<a href="https://gdi.berlin.de/viewer/main/#" target="_blank">Berliner Geoportal</a>).
+Sie können Ihren Datensatz und Ihre Verkehrsart auswählen.
+Klicken Sie auf ein Segment, um weitere Informationen zu erhalten.
+Wählen Sie den gewünschten Zeitraum in der Zeitleiste aus.
+Sie können die Ansicht vergrößern, wenn Sie weitere Informationen wünschen.</p>
 </div>
 </div>
     <div>
       
       <div class="accordion">
-  <div class="accordion-header">Layers<span class="accordion-arrow">▾</span></div>
+  <div class="accordion-header">Kartenebene<span class="accordion-arrow">▾</span></div>
   <div class="accordion-body">
     <input type="checkbox" id="toggle-survey" name="toggle-survey" checked />
   <label for="toggle-survey">Umfrage</label>
@@ -45,37 +45,42 @@ You can zoom in if you want more information.</p>
   <span style="font-size: 0.8em; color: #666;">Thema:</span>
   <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px;">
     <label style="display:flex; align-items:center; gap:3px; background:#f0f0f0; padding:2px 7px; border-radius:12px; font-size:0.8em; cursor:pointer">
-      <input type="checkbox" id="toggle-topic_noise" name="toggle-topic_noise" checked /> Noise
+      <input type="checkbox" id="toggle-topic_noise" name="toggle-topic_noise" checked /> Lärm
     </label>
     <label style="display:flex; align-items:center; gap:3px; background:#f0f0f0; padding:2px 7px; border-radius:12px; font-size:0.8em; cursor:pointer;">
-      <input type="checkbox" id="toggle-topic_air_quality" name="toggle-topic_air_quality" checked /> Air Quality
+      <input type="checkbox" id="toggle-topic_air_quality" name="toggle-topic_air_quality" checked /> Luftqualität
     </label>
     <label style="display:flex; align-items:center; gap:3px; background:#f0f0f0; padding:2px 7px; border-radius:12px; font-size:0.8em; cursor:pointer;">
-      <input type="checkbox" id="toggle-topic_safety" name="toggle-topic_safety" checked /> Safety
+      <input type="checkbox" id="toggle-topic_safety" name="toggle-topic_safety" checked /> Sicherheit
     </label>
     <label style="display:flex; align-items:center; gap:3px; background:#f0f0f0; padding:2px 7px; border-radius:12px; font-size:0.8em; cursor:pointer;">
-      <input type="checkbox" id="toggle-topic_barriers" name="toggle-topic_barriers" checked /> Barriers
+      <input type="checkbox" id="toggle-topic_barriers" name="toggle-topic_barriers" checked />  Hindernisse
+    </label> 
+    <!-- Barriers -->
+    <label style="display:flex; align-items:center; gap:3px; background:#f0f0f0; padding:2px 7px; border-radius:12px; font-size:0.8em; cursor:pointer;">
+      <input type="checkbox" id="toggle-topic_accessibility" name="toggle-topic_accessibility" checked /> Barrierefreiheit 
+    </label>
+    <!-- Accessibility -->
+    <label style="display:flex; align-items:center; gap:3px; background:#f0f0f0; padding:2px 7px; border-radius:12px; font-size:0.8em; cursor:pointer;">
+      <input type="checkbox" id="toggle-topic_pt_connexion" name="toggle-topic_pt_connexion" checked /> Verbindung
+    </label>
+    <!-- Connexion -->
+    <label style="display:flex; align-items:center; gap:3px; background:#f0f0f0; padding:2px 7px; border-radius:12px; font-size:0.8em; cursor:pointer;">
+      <input type="checkbox" id="toggle-topic_space_distribution" name="toggle-topic_space_distribution" checked /> Raumaufteilung
     </label>
     <label style="display:flex; align-items:center; gap:3px; background:#f0f0f0; padding:2px 7px; border-radius:12px; font-size:0.8em; cursor:pointer;">
-      <input type="checkbox" id="toggle-topic_accessibility" name="toggle-topic_accessibility" checked /> Accessibility
-    </label>
+      <input type="checkbox" id="toggle-topic_cond_ped" name="toggle-topic_cond_ped" checked /> Bedingungen f. Fußgänger
+    </label> 
+    <!-- Cond. ped. -->
     <label style="display:flex; align-items:center; gap:3px; background:#f0f0f0; padding:2px 7px; border-radius:12px; font-size:0.8em; cursor:pointer;">
-      <input type="checkbox" id="toggle-topic_pt_connexion" name="toggle-topic_pt_connexion" checked /> Connexion
+      <input type="checkbox" id="toggle-topic_cond_cycl" name="toggle-topic_cond_cycl" checked /> Bedingungen f. Radfahrer 
     </label>
+    <!-- Cond. cyclist -->
     <label style="display:flex; align-items:center; gap:3px; background:#f0f0f0; padding:2px 7px; border-radius:12px; font-size:0.8em; cursor:pointer;">
-      <input type="checkbox" id="toggle-topic_space_distribution" name="toggle-topic_space_distribution" checked /> Space distrib.
-    </label>
-    <label style="display:flex; align-items:center; gap:3px; background:#f0f0f0; padding:2px 7px; border-radius:12px; font-size:0.8em; cursor:pointer;">
-      <input type="checkbox" id="toggle-topic_cond_ped" name="toggle-topic_cond_ped" checked /> Cond. ped.
-    </label>
-    <label style="display:flex; align-items:center; gap:3px; background:#f0f0f0; padding:2px 7px; border-radius:12px; font-size:0.8em; cursor:pointer;">
-      <input type="checkbox" id="toggle-topic_cond_cycl" name="toggle-topic_cond_cycl" checked /> Cond. cyclist
-    </label>
-    <label style="display:flex; align-items:center; gap:3px; background:#f0f0f0; padding:2px 7px; border-radius:12px; font-size:0.8em; cursor:pointer;">
-      <input type="checkbox" id="toggle-topic_atmosphere" name="toggle-topic_atmosphere" checked /> Atmosphere
+      <input type="checkbox" id="toggle-topic_atmosphere" name="toggle-topic_atmosphere" checked /> Atmosphäre
     </label>
     <label style="display:flex; align-items:center; gap:3px; background:#f0f0f0; padding:2px 7px; border-radius:12px; font-size:0.8em; cursor:pointer; margin-bottom:10px">
-      <input type="checkbox" id="toggle-topic_other" name="toggle-topic_other" checked /> Other
+      <input type="checkbox" id="toggle-topic_other" name="toggle-topic_other" checked /> Sonstiges
     </label>
    </div>
       
@@ -83,18 +88,18 @@ You can zoom in if you want more information.</p>
         <label for="verkehrsmengen">Verkehrsmengen</label>
    
       <div id="mode-toggles-ver">
-        <button class="toggle-btn active" name="mode" value="bike">Bike</button>
-        <button class="toggle-btn" name="mode" value="car">Car</button>
-        <button class="toggle-btn" name="mode" value="heavy">Heavy</button>
+        <button class="toggle-btn active" name="mode" value="bike">Fahrrad</button>
+        <button class="toggle-btn" name="mode" value="car">Auto</button>
+        <button class="toggle-btn" name="mode" value="heavy">Lkw</button>
       </div>
 
       <input type="checkbox" id="toggle-telraam" name="toggle-telraam" checked />
       <label for="telraam">Telraam</label>
 
       <div id="mode-toggles-tel">
-        <button class="toggle-btn active" name="mode" value="bike">Bike</button>
-        <button class="toggle-btn" name="mode" value="car">Car</button>
-        <button class="toggle-btn" name="mode" value="heavy">Heavy</button>
+        <button class="toggle-btn active" name="mode" value="bike">Fahrrad</button>
+        <button class="toggle-btn" name="mode" value="car">Auto</button>
+        <button class="toggle-btn" name="mode" value="heavy">Schwerverkehr</button>
       </div>
 </div>
 </div>
@@ -102,7 +107,7 @@ You can zoom in if you want more information.</p>
 </div>
 
   <div class="accordion">
-  <div class="accordion-header">Legend <span class="accordion-arrow">▾</span></div>
+  <div class="accordion-header">Legende <span class="accordion-arrow">▾</span></div>
   <div class="accordion-body">
     <p>Survey :</p>
     <div id="legend-survey" class="legend">
@@ -144,11 +149,11 @@ You can zoom in if you want more information.</p>
   </div>
 
   <div class="accordion">
-  <div class="accordion-header">Timeline <span class="accordion-arrow">▾
+  <div class="accordion-header">Zeitleiste<span class="accordion-arrow">▾
     
   </span></div>
   <div class="accordion-body">
-     <p>You can select the period of your choice for Telraam data</p>
+     <p>Sie können den gewünschten Zeitraum für die Telraam-Daten auswählen</p>
 <div id="timeline-container">
   <div id="timeline-scroll">
 
@@ -172,16 +177,16 @@ You can zoom in if you want more information.</p>
         <div class="month-row">
           <div class="month" data-month="2023_01">Jan</div>
           <div class="month" data-month="2023_02">Feb</div>
-          <div class="month" data-month="2023_03">Mar</div>
+          <div class="month" data-month="2023_03">Mär</div>
           <div class="month" data-month="2023_04">Apr</div>
-          <div class="month" data-month="2023_05">May</div>
-          <div class="month" data-month="2023_06">Jun</div>
-          <div class="month" data-month="2023_07">Jul</div>
+          <div class="month" data-month="2023_05">Mai</div>
+          <div class="month" data-month="2023_06">Juni</div>
+          <div class="month" data-month="2023_07">Juli</div>
           <div class="month" data-month="2023_08">Aug</div>
           <div class="month" data-month="2023_09">Sep</div>
-          <div class="month" data-month="2023_10">Oct</div>
+          <div class="month" data-month="2023_10">Okt</div>
           <div class="month" data-month="2023_11">Nov</div>
-          <div class="month" data-month="2023_12">Dec</div>
+          <div class="month" data-month="2023_12">Dez</div>
         </div>
       </div>
     </div>
@@ -206,16 +211,16 @@ You can zoom in if you want more information.</p>
         <div class="month-row">
           <div class="month" data-month="2024_01">Jan</div>
           <div class="month" data-month="2024_02">Feb</div>
-          <div class="month" data-month="2024_03">Mar</div>
+          <div class="month" data-month="2024_03">Mär</div>
           <div class="month" data-month="2024_04">Apr</div>
-          <div class="month" data-month="2024_05">May</div>
-          <div class="month" data-month="2024_06">Jun</div>
-          <div class="month" data-month="2024_07">Jul</div>
+          <div class="month" data-month="2024_05">Mai</div>
+          <div class="month" data-month="2024_06">Juni</div>
+          <div class="month" data-month="2024_07">Juli</div>
           <div class="month" data-month="2024_08">Aug</div>
           <div class="month" data-month="2024_09">Sep</div>
-          <div class="month" data-month="2024_10">Oct</div>
+          <div class="month" data-month="2024_10">Okt</div>
           <div class="month" data-month="2024_11">Nov</div>
-          <div class="month" data-month="2024_12">Dec</div>
+          <div class="month" data-month="2024_12">Dez</div>
         </div>
       </div>
     </div>
@@ -240,16 +245,16 @@ You can zoom in if you want more information.</p>
         <div class="month-row">
           <div class="month" data-month="2025_01">Jan</div>
           <div class="month" data-month="2025_02">Feb</div>
-          <div class="month" data-month="2025_03">Mar</div>
+          <div class="month" data-month="2025_03">Mär</div>
           <div class="month" data-month="2025_04">Apr</div>
-          <div class="month" data-month="2025_05">May</div>
-          <div class="month" data-month="2025_06">Jun</div>
-          <div class="month" data-month="2025_07">Jul</div>
+          <div class="month" data-month="2025_05">Mai</div>
+          <div class="month" data-month="2025_06">Juni</div>
+          <div class="month" data-month="2025_07">Juli</div>
           <div class="month" data-month="2025_08">Aug</div>
           <div class="month" data-month="2025_09">Sep</div>
-          <div class="month" data-month="2025_10">Oct</div>
+          <div class="month" data-month="2025_10">Okt</div>
           <div class="month" data-month="2025_11">Nov</div>
-          <div class="month" data-month="2025_12">Dec</div>
+          <div class="month" data-month="2025_12">Dez</div>
         </div>
       </div>
     </div>
@@ -258,7 +263,7 @@ You can zoom in if you want more information.</p>
 </div>
  
 </div>
-<a href="more_info.html" target="_self" class="info-link">More information</a>
+<a href="more_info.html" target="_self" class="info-link">Weitere Informationen</a>
 </div>  
 
 </div>
@@ -277,7 +282,7 @@ You can zoom in if you want more information.</p>
   <button id="close-btn" aria-label="Close panel" type="button">
     <span aria-hidden="true">&times;</span>
   </button>
-  <h3 id="panel-title">Segment Info</h3>
+  <h3 id="panel-title">Segmentinformationen</h3>
   <div id="panel-content"></div>
 </div> 
 </body>

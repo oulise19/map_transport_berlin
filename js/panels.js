@@ -15,9 +15,12 @@ export function renderPanel(props, layerId) {
     ? modeConfig[activeModeTelraam] 
     : modeConfig[activeModeVerkehr];
   let value;
+  let value2;
   if (layerId === 'telraam') {
+    value2 =  `<p class="segment-header"> <strong> Telraam segment</strong> </p>`;
     value = getAveragedValue(props, config.telraam);
   } else if (layerId === 'verkehrsmengen') {
+    value2= `<p class="segment-header"> <strong> Segment Geoportal aus Berlin</strong> </p>`;
     value = props[config.verkehr];
   } else if (layerId === 'survey') {
     value = null;
@@ -28,16 +31,17 @@ export function renderPanel(props, layerId) {
               `;
   } else if (layerId === 'verkehrsmengen') {
     header = `<p><strong>Segment:</strong> ${props.link_id}</p>
-              <p><strong>Street:</strong> ${props.str_name}</p>`;
+              <p><strong>Straße:</strong> ${props.str_name}</p>`;
   } else if (layerId === 'survey') {
     header = `<p><strong>Situation:</strong> ${props.observation_clean}</p>
-              <p><strong>Theme:</strong> ${props.suggestion_clean}</p>`;
+              <p><strong>Thema:</strong> ${props.suggestion_clean}</p>`;
   }
   const panel = document.getElementById('right-panel');
   panel.classList.add('refreshing');
   setTimeout(() => {
   document.getElementById('panel-content').innerHTML = `
-    ${layerId !== 'survey' ? `<p><strong>${config.label}:</strong> ${value ?? 'No data for this period'}</p>` : ''}
+   
+    ${layerId !== 'survey' ? `${value2 ?? ''}<p><strong>${config.label}:</strong> ${value ?? 'Für diesen Zeitraum liegen keine Daten vor'}</p>` : ''}
     ${header}
   `;
     document.body.classList.add('panel-open');

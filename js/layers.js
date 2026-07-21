@@ -18,7 +18,11 @@ export function getLayers() {
     new GeoJsonLayer({
       id: 'telraam',
       data: telraamData, 
-        getLineColor: (feature) => {
+        getLineColor: (feature, {index}) => {
+        const featureId = feature.properties.id ?? index;
+        if (featureId === selectedFeatureId) {
+          return [255, 255, 0, 255];
+        }
         const value = getAveragedValue(feature.properties, modeConfig[activeModeTelraam].telraam); 
         
         const [min, max] = modeConfig[activeModeTelraam].rangeTelraam;
@@ -27,7 +31,8 @@ export function getLayers() {
         },
       beforeId: 'waterway_label',
       updateTriggers: {
-      getLineColor: [activeModeTelraam, rangeStart, rangeEnd]
+      getLineColor: [activeModeTelraam, rangeStart, rangeEnd,selectedFeatureId],
+      getLineWidth: [selectedFeatureId]
       },
       lineWidthMinPixels: 4,
       pickable: true,

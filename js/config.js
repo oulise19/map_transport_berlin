@@ -20,19 +20,19 @@ export function setCurrentViewState(viewState) {
 //Definition of quantitative data using the variable name
 export const modeConfig = {
   'bike': {
-    telraam: 'bike_total', verkehr: 'dtvw_rad', label: 'Bikes',
+    telraam: 'bike_total', verkehr: 'dtvw_rad', label: 'Fahrräder',
     colorTelraam: '#e844e8', colorVerkehr: '#c9530f',
     rangeTelraam: [3, 5663],
     rangeVerkehr: [10, 8900], zoomThreshold : 'II',
   },
   'car': {
-    telraam: 'car_total', verkehr: 'dtw_kfz_new', label: 'Cars',
+    telraam: 'car_total', verkehr: 'dtw_kfz_new', label: 'Autos',
     colorTelraam: '#b91bbe', colorVerkehr: '#d67405',
     rangeTelraam: [0.0, 25073],
     rangeVerkehr: [90, 63850], zoomThreshold : 'II',
   },
   'heavy': {
-    telraam: 'heavy_total', verkehr: 'dtvw_lkw', label: 'Heavy',
+    telraam: 'heavy_total', verkehr: 'dtvw_lkw', label: 'Schwerverkehr',
     colorTelraam: '#801062', colorVerkehr: '#fe5b09',
     rangeTelraam: [1, 5520],
     rangeVerkehr: [10, 3000 ], zoomThreshold : 'II',

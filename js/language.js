@@ -22,7 +22,58 @@ const translations = {
       Autos und schweren Fahrzeugen zu erfassen. Diese Daten sind über 
       eine API oder die <a href="http://www.berlin-zaehlt.de/">Berlin Zählt</a>. Allerdings nur als Rohdaten in Form von stündlichen Zählwerten. Um sie auf der Karte darzustellen, mussten sie daher aufbereitet werden. Die endgültige Datenquelle 
       ist eine von Studierenden der Humboldt-Universität zu Berlin durchgeführte Erhebung.`,
-  }
+  },
+  'title2': {
+    en:`Processing methodology`,
+    de: `Verarbeitungsmethodik`,
+  }, 
+  'para2': {
+    en:`To bring Telraam data closer to this metric, we processed the raw counts by calculating the average number of vehicles and cyclists per segment on a typical weekday. This was done in Python using Pandas — grouping by segment, weekday, and hour, then averaging.`,
+    de:`Um die Telraam-Daten besser an diese Kennzahl anzupassen, haben wir die Rohdaten so aufbereitet, dass wir die durchschnittliche Anzahl an Fahrzeugen und Radfahrern pro Segment an einem typischen Wochentag ermittelt haben. Dies erfolgte in Python unter Verwendung von Pandas – dabei wurden die Daten nach Segment, Wochentag und Stunde gruppiert und anschließend der Durchschnitt berechnet.`,
+  },
+  'para3':{
+    en: `Public holidays were excluded using the <code>holidays</code> library. 
+        School holidays, which have no equivalent library, were excluded manually using dates 
+        from the <a href="#">Official Berlin website</a>. You can find the detailed processing 
+        steps and our pipeline in the <a href="https://github.com/oulise19/teleraam-data.git">
+        GitHub repository</a>. `,
+    de:` Feiertage wurden mithilfe der Feiertagsbibliothek (<code>holidays</code>) ausgeschlossen.
+    Schulferien, für die es keine Entsprechung in der Bibliothek gibt, wurden manuell anhand der Daten
+        von der <a href=""#>Offiziellen Berliner Website</a> ausgeschlossen. Die detaillierten Verarbeitungsschritte und unsere Pipeline finden Sie im 
+        <a href="https://github.com/berlin-zaehlt/traffic-data-processing">GitHub-Repository</a>.`,
+  },
+  'title3': {
+    en: `Limitations for Telraam data`,
+    de: `Einschränkungen für Telraam-Daten`,
+  },
+  'para4': {
+    en: `The Telraam data has been processed into a standardized format that is
+        better suited for visualization alongside the Geoportal data on the map.
+        However it's still not as comprehensive. It only covers segments with installed sensors, 
+        and may vary due to sensor placement and calibration. It should be interpreted with 
+        caution.`,
+    de: `Die Telraam-Daten wurden in ein standardisiertes Format umgewandelt, das
+        sich besser für die Visualisierung zusammen mit den Geoportal-Daten auf der Karte eignet.
+        Allerdings sind sie nach wie vor nicht so umfassend. Sie decken nur Abschnitte mit installierten Sensoren ab
+        und können je nach Sensorplatzierung und Kalibrierung Abweichungen aufweisen. Sie sollten daher mit
+        Vorsicht interpretiert werden.`,
+  },
+  'title4':{
+    en: `Survey`,
+    de:`Umfrage`
+  },
+  'para5': {
+    en: `The survey was written by Marek Sierts, with responses collected by students from Humboldt University Berlin. 
+        Two locations were chosen : one near the A100 extension (Alt-Treptow) and another in Adlershof, close to the university campus.`,
+    de: `Der Fragebogen wurde von Marek Sierts verfasst, die Antworten wurden von Studierenden der Humboldt-Universität zu Berlin erhoben.
+        Es wurden zwei Standorte ausgewählt: einer in der Nähe der A100-Verlängerung (Alt-Treptow) und ein weiterer in Adlershof, unweit des Universitätsgeländes.`,
+  },
+  'para6': {
+    en:`The survey was conducted as a questionnaire. Some participant answers and identifying information 
+        are not included in this visualization.`,
+    de:`Die Umfrage wurde in Form eines Fragebogens durchgeführt. Einige Antworten der Teilnehmer sowie personenbezogene Daten
+        sind in dieser Visualisierung nicht enthalten.`,
+  },
 };
 
 function setLanguage(lang) {
@@ -41,4 +92,4 @@ document.querySelectorAll('.lang-toggle button').forEach(btn => {
   });
 });
 
-setLanguage('en'); // set initial language on page load
+setLanguage('de');
