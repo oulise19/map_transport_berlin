@@ -30,8 +30,7 @@ export function renderPanel(props, layerId) {
     header = `<p><strong>Segment:</strong> ${props.segment_id}</p>
               `;
   } else if (layerId === 'verkehrsmengen') {
-    header = `<p><strong>Segment:</strong> ${props.link_id}</p>
-              <p><strong>Straße:</strong> ${props.str_name}</p>`;
+    header = `<p><strong>Straße:</strong> ${props.str_name}</p>`;
   } else if (layerId === 'survey') {
     header = `<p><strong>Situation:</strong> ${props.observation_clean}</p>
               <p><strong>Thema:</strong> ${props.suggestion_clean}</p>`;

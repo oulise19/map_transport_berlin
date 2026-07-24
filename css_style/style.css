@@ -14,7 +14,7 @@ body.panel-collapsed {
 #left-panel {
    width: 400px;
   flex-shrink: 0;
-  background: #fffbf0;
+  background: #f6fcff;
   padding: 20px;
   overflow-y: auto;
   border-right: 1px solid #e8e0c8;
@@ -91,7 +91,7 @@ p {
 .segment-header {
   font-size: 13px;
   font-weight: 300;
-  color: #0066cc;
+  /* color: #0066cc; */
   margin: 0 0 8px 0;
   letter-spacing: 0.5px;
 }

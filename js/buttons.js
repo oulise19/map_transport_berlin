@@ -51,7 +51,6 @@ setactiveModeTelraam(btn.value);
 }
 
 export function handleVerkehrModeClick(btn) {
-//   activeModeVerkehr = btn.value;
     setactiveModeVerkehr(btn.value);
   document.querySelectorAll('#mode-toggles-ver .toggle-btn').forEach(b => {
     b.classList.remove('active');
