@@ -68,10 +68,10 @@ loadData().then(() => {
   document.getElementById('close-btn').addEventListener('click', closeRightPanel);
 });
 
-// setTimeout(() => {
-//   const map = deckGL.getMapboxMap();
-//   map.setLayoutProperty('place_city_r5', 'visibility', 'none');
-// }, 1000);
+setTimeout(() => {
+  const map = deckGL.getMapboxMap();
+  map.setLayoutProperty('place_city_r5', 'visibility', 'none');
+}, 1000);
 
 
 

@@ -14,7 +14,7 @@ body.panel-collapsed {
 #left-panel {
    width: 400px;
   flex-shrink: 0;
-  background: #f6fcff;
+  background: #e7e7ea;
   padding: 20px;
   overflow-y: auto;
   border-right: 1px solid #e8e0c8;
@@ -52,7 +52,7 @@ body.panel-collapsed #collapse-btn {
   width: 0px;
   flex-shrink: 0;
   overflow: hidden;
-  background: #fffbf0;
+  background: #e7e7ea;
   overflow-y: auto;
   border-left: 1px solid #e8e0c8;
   transition: width 0.3s, padding 0.3s;   
@@ -127,7 +127,7 @@ label {
 #mode-toggles-ver {
   display: flex;
   gap: 4px;
-  background: #ede8d8;
+  background: #dde8ec;
   padding: 3px;
   border-radius: 8px;
   width: fit-content;
@@ -180,48 +180,6 @@ label {
   margin-top: 3px;
 }
 
-/* legend survey */
-/* .legend-bar_sur {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 10px;
-} */
-/* 
-.legend-bar_sur::before,
-.legend-bar_sur::after {
-  content: none;
-} */
-
-/* .legend-bar_sur span,
-.legend-bar_sur .dot {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  display: inline-block;
-} */
-
-/* .legend-bar_sur-labels {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  /* justify-content: space-between; */
-  /* margin-top: 8px;
-} */ 
-/* .legend-bar_sur-labels span {
-  flex: 1;
-  text-align: center;
-  font-size: 13px;
-  color: #333;
-  
-} */
-
-/* .legend {
-  width: 100%;
-  max-width: 600px;
-  margin: 20px auto;
-  font-family: Arial, sans-serif;
-} */
-
 .legend-bar_sur {
   display: grid;
   grid-template-rows: repeat(5, 1fr);
@@ -260,12 +218,12 @@ label {
   width: 100%;
   max-width: 100%;
   z-index: 10;
-  background:#fffbf0;
+  background:#e7e7ea;
   border: 1px solid #ddd;
   border-radius: 10px;
   padding: 10px 10px 6px;
   overflow-x: auto;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(231, 231, 234, 0.08);
   margin-top: 16px;
 
   scrollbar-width: none;     
@@ -274,7 +232,7 @@ label {
 #timeline-scroll {
   display: inline-flex;
   gap: 0;
-  background:#fffbf0;
+  background:#e7e7ea;
 }
 
 #timeline-container::-webkit-scrollbar {
@@ -373,6 +331,20 @@ label {
   user-select: none;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+
+.accordion-header-2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #585757;
+  cursor: pointer;
+  user-select: none;
+  letter-spacing: 0.5px;
+  margin-right: 10px;
 }
 
 .accordion-arrow {
