@@ -27,6 +27,7 @@ loadData().then(() => {
     setDeckGL(new deck.DeckGL({
         container: 'map',
         mapStyle: 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json',
+        // mapStyle: 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json',
         viewState: currentViewState, // instead of initialViewState
         controller: true,
         pickingRadius: 10,
@@ -67,10 +68,10 @@ loadData().then(() => {
   document.getElementById('close-btn').addEventListener('click', closeRightPanel);
 });
 
-setTimeout(() => {
-  const map = deckGL.getMapboxMap();
-  map.setLayoutProperty('place_city_r5', 'visibility', 'none');
-}, 1000);
+// setTimeout(() => {
+//   const map = deckGL.getMapboxMap();
+//   map.setLayoutProperty('place_city_r5', 'visibility', 'none');
+// }, 1000);
 
 
 
