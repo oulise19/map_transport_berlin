@@ -7,33 +7,33 @@ combining traffic/mobility data both qualitative and quantitative from **Telraam
 
 ```
 map_transport_berlin/
-|    ├──css_style/
-|       ├──style.css
-|       └──style2.css
+├──css_style/
+|      ├──style.css
+|      └──style2.css
 |
-|    ├──data/
-|       ├──all_verkehrsmengen_2023_new.geojson
-|       ├──sites_mit_demographics_bereinigt_v2.geojson
-|       └──tel_all_years.geojson
+├──data/
+|      ├──all_verkehrsmengen_2023_new.geojson
+|      ├──sites_mit_demographics_bereinigt_v2.geojson
+|      └──tel_all_years.geojson
 |
-|   ├──js/
-|       ├──buttons.js
-|       ├──color.js
-|       ├──config.js
-|       ├──data.js
-|       ├──label_in_line.js
-|       ├──language.js
-|       ├──layers.js
-|       ├──legend.js
-|       ├──main.js
-|       ├──panels.js
-|       ├──state.js
-|       ├──timeline.js
-|       └──tooltip.js
+├──js/
+|      ├──buttons.js
+|      ├──color.js
+|      ├──config.js
+|      ├──data.js
+|      ├──label_in_line.js
+|      ├──language.js
+|      ├──layers.js
+|      ├──legend.js
+|      ├──main.js
+|      ├──panels.js
+|      ├──state.js
+|      ├──timeline.js
+|      └──tooltip.js
 |   
-|   ├──index.html
-|   ├──more_info.html
-|   └──README.md
+├──index.html
+├──more_info.html
+└──README.md
 
 
 ```
