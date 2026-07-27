@@ -1,6 +1,3 @@
-[Page Github link](https://oulise19.github.io/map_transport_berlin/index.html)
-
-
 # Geovisualization map for mobility in Berlin – Data Sources & Attribution
 
 This project displays data on an interactive map, done as part of the project **Berlin Bequem**,
