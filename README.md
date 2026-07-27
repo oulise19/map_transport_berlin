@@ -1,7 +1,7 @@
 # Geovisualization map for mobility in Berlin – Data Sources & Attribution
 
 This project displays data on an interactive map, done as part of the project **Berlin Bequem**,
-combining traffic/mobility data both qualitative and quantitative from **Telraam**, geographic base data from **Geoportal Berlin**, and results from an **independent survey** done by Humboldt University. You can find it in live on this page : [Page Github link](https://oulise19.github.io/map_transport_berlin/index.html) or directly on the website [Berlin Bequem](https://www.berlinbequem.de/)
+combining traffic/mobility data both qualitative and quantitative from **Telraam**, geographic base data from **Geoportal Berlin**, and results from an **independent survey** done by Humboldt University. You can find it in live on this page : [Page Github link](https://oulise19.github.io/map_transport_berlin/index.html) or directly on the website [Berlin Bequem](https://www.berlinbequem.de/).
 
 ## Data Sources
 
@@ -14,18 +14,14 @@ The Telraam data required processing and calculation in order to be displayed on
 The pipeline followed the DTVw (Durchschnittlicher Tagesverkehr werktags (Average Daily Traffic on workdays): the average number of vehicles and cyclists passing a road section on a typical weekday, excluding public holidays.) in order to have consistent figures  with the other dataset **Berlin Geoportal**
 
 ### Geoportal Berlin
-- **Source:** [Geoportal Berlin / FIS-Broker](https://www.berlin.de/sen/sbw/stadtdaten/geoportal/)
+- **Source:** [Geoportal Berlin](https://gdi.berlin.de/viewer/main/#)
+- **Attribution:** Geoportal Berlin / [Verkehrsmengen](https://gdi.berlin.de/viewer/main/#), © 2023, Datenlizenz Deutschland – Namensnennung – Version 2.0.
 - **License:** [Datenlizenz Deutschland – Namensnennung – Version 2.0](https://www.govdata.de/dl-de/by-2-0)
-- **Attribution:** Geoportal Berlin / [dataset name], © [2023], Datenlizenz Deutschland – Namensnennung – Version 2.0.
 
 ### Independent Survey
 - **Source:** [Survey name / Humboldt University]
 - **License / Usage:** not for redistribution
 - **Attribution:** Survey data collected by students of Humboldt University, [2026].
-
-## General Attribution Text
-
-> Map data © Telraam (CC BY 4.0), Geoportal Berlin (Datenlizenz Deutschland – Namensnennung 2.0), and independent survey data collected by [Huombodt University students].
 
 ## Links
 
@@ -41,3 +37,7 @@ For questions about this map or its data, contact: [Marek Sierts](info@transform
 ## Author : 
 Louise Alex 
 Contact : [Louise Alex](louise.alex@ensg.eu)
+
+## General Attribution Text
+
+> Map data © Telraam (CC BY 4.0), Geoportal Berlin (Datenlizenz Deutschland – Namensnennung 2.0), and independent survey data collected by [Huombodt University students].
