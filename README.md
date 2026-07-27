@@ -1,7 +1,7 @@
 [Page Github link](https://oulise19.github.io/map_transport_berlin/index.html)
 
 
-# Map – Data Sources & Attribution
+# Geovisualization map for mobility in Berlin – Data Sources & Attribution
 
 This project displays data on an interactive map, done as part of the project **Berlin Bequem**,
 combining traffic/mobility data both qualitative and quantitative from **Telraam**, geographic base data from **Geoportal Berlin**, and results from an **independent survey** done by Humboldt University. You can find it in live on this page : [Page Github link](https://oulise19.github.io/map_transport_berlin/index.html) or directly on the website [Berlin Bequem](https://www.berlinbequem.de/)
@@ -11,9 +11,9 @@ combining traffic/mobility data both qualitative and quantitative from **Telraam
 ### Telraam
 - **Main Website** [Telraam](https://telraam.net/)
 
-- **Source** [Berlin Zählt Mobilität](http://www.berlin-zaehlt.de/)
+- **Source** [Berlin Zählt Mobilität](http://www.berlin-zaehlt.de/) <br>
 The Telraam data required processing and calculation in order to be displayed on the map. The detail of the calculation can be found on this link : 
-- **Data Processing:** [Pipeline used](https://github.com/oulise19/teleraam-data)
+- **Data Processing:** [Pipeline used](https://github.com/oulise19/teleraam-data) <br>
 The pipeline followed the DTVw (Durchschnittlicher Tagesverkehr werktags (Average Daily Traffic on workdays): the average number of vehicles and cyclists passing a road section on a typical weekday, excluding public holidays.) in order to have consistent figures  with the other dataset **Berlin Geoportal**
 
 ### Geoportal Berlin
