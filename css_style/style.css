@@ -181,36 +181,28 @@ label {
 }
 
 .legend-bar_sur {
-  display: grid;
-  grid-template-rows: repeat(5, 1fr);
-  grid-auto-flow: column;
-   row-gap: 12px;
-  justify-items: left;
-  align-items: center;
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
 }
 
-.legend-bar_sur span,
-.legend-bar_sur .dot {
+.legend-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend-row .dot {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  display: inline-block;
+  flex-shrink: 0;
 }
 
-.legend-sur-labels {
-  display: grid;
-  grid-template-rows: repeat(5, 1fr);
-  grid-auto-flow: column;
-  align-items: center;
-  row-gap: 12px;
-  margin-top: 8px;
-  margin-right: 8px;
-}
-
-.legend-sur-labels span {
-  text-align: center;
+.legend-row span:not(.dot) {
   font-size: 12px;
   color: #333;
+  white-space: nowrap;
 }
 
 /* Timeline */

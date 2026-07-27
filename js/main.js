@@ -104,6 +104,10 @@ document.addEventListener('DOMContentLoaded', () => {
     header.addEventListener('click', () => handleAccordionClick(header));
   });
 
+  document.querySelectorAll('.accordion-header-2').forEach(header => {
+    header.addEventListener('click', () => handleAccordionClick(header));
+  });
+
   document.getElementById('toggle-telraam').addEventListener('change', handleTelraamToggleChange);
   document.getElementById('toggle-verkehrsmengen').addEventListener('change', handleVerkehrToggleChange);
   document.getElementById('toggle-survey').addEventListener('change', handleSurveyToggleChange);

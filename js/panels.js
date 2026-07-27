@@ -20,7 +20,7 @@ export function renderPanel(props, layerId) {
     value2 =  `<p class="segment-header"> <strong> Telraam segment</strong> </p>`;
     value = getAveragedValue(props, config.telraam);
   } else if (layerId === 'verkehrsmengen') {
-    value2= `<p class="segment-header"> <strong> Segment Geoportal aus Berlin</strong> </p>`;
+    value2= `<p class="segment-header"> <strong> Geoportal-Segment aus Berlin</strong> </p>`;
     value = props[config.verkehr];
   } else if (layerId === 'survey') {
     value = null;
