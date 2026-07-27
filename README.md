@@ -20,10 +20,10 @@ The pipeline followed the DTVw (Durchschnittlicher Tagesverkehr werktags (Averag
 
 ### Independent Survey
 - **Source:** [Survey name / Humboldt University]
-- **License / Usage:** [e.g. internal use only, CC BY-SA, or "not for redistribution"]
-- **Attribution:** Survey data collected by [students of Humboldt University], [2026].
+- **License / Usage:** not for redistribution
+- **Attribution:** Survey data collected by students of Humboldt University, [2026].
 
-## General Attribution Text (for map footer / about page)
+## General Attribution Text
 
 > Map data © Telraam (CC BY 4.0), Geoportal Berlin (Datenlizenz Deutschland – Namensnennung 2.0), and independent survey data collected by [Huombodt University students].
 
@@ -36,7 +36,7 @@ The pipeline followed the DTVw (Durchschnittlicher Tagesverkehr werktags (Averag
 
 ## Contact
 
-For questions about this map or its data, contact: [Marek Sierts](info@transform-mobility.de),[Louise Alex](louise.alex@ensg.eu)
+For questions about this map or its data, contact: [Marek Sierts](info@transform-mobility.de),   [Louise Alex](louise.alex@ensg.eu)
 
 ## Author : 
 Louise Alex 
