@@ -1,3 +1,10 @@
+/**
+ * All functions that manage a button (toogle, collapse button...)
+ *
+ * @author Louise ALEX
+ * @date 2026-07-28
+ */
+
 import { currentZoom, currentProps, rangeStart, rangeEnd, selectedFeatureId, activeModeTelraam,
     activeModeVerkehr, activeModeSurvey, telraamData, verkehrData, surveydata, deckGL, setCurrentLayerId, 
     currentLayerId, setrangeStart, setrangeEnd
@@ -37,7 +44,7 @@ export function setDefaultToggle(selector, colorKey, config) {
 }
 
 export function handleTelraamModeClick(btn) {
-//   activeModeTelraam = btn.value;
+
 setactiveModeTelraam(btn.value);
   document.querySelectorAll('#mode-toggles-tel .toggle-btn').forEach(b => {
     b.classList.remove('active');
@@ -96,7 +103,6 @@ export function handleSurveyToggleChange(e) {
   deckGL.setProps({ layers: getLayers() });
 }
 
-
 export function handleMonthClick(month) {
   if (rangeEnd !== null) {
     // already had a range — start fresh
@@ -123,7 +129,6 @@ export function handleMonthClick(month) {
 
     }
   }
-
   highlightRange();
   deckGL.setProps({ layers: getLayers() });
   if (currentProps) renderPanel(currentProps, currentLayerId);

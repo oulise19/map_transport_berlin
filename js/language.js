@@ -1,3 +1,11 @@
+/**
+ * Goes with more_info.html
+ * Go here to modify the text on "weitere information" page
+
+ * @author Louise ALEX
+ * @date 2026-07-28
+ */
+
 const translations = {
     'title': {
     en: `Information on data used`,
@@ -30,6 +38,11 @@ const translations = {
   'para2': {
     en:`To bring Telraam data closer to this metric, we processed the raw counts by calculating the average number of vehicles and cyclists per segment on a typical weekday. This was done in Python using Pandas — grouping by segment, weekday, and hour, then averaging.`,
     de:`Um die Telraam-Daten besser an diese Kennzahl anzupassen, haben wir die Rohdaten so aufbereitet, dass wir die durchschnittliche Anzahl an Fahrzeugen und Radfahrern pro Segment an einem typischen Wochentag ermittelt haben. Dies erfolgte in Python unter Verwendung von Pandas – dabei wurden die Daten nach Segment, Wochentag und Stunde gruppiert und anschließend der Durchschnitt berechnet.`,
+  },
+  'dtvw':
+  {
+    en: ` — Durchschnittlicher Tagesverkehr werktags (Average Daily Traffic on workdays): the average number of vehicles and cyclists passing a road section on a typical weekday, excluding public holidays.`,
+    de: ` — Durchschnittlicher Tagesverkehr an Werktagen (Average Daily Traffic on workdays): Die durchschnittliche Anzahl der Fahrzeuge und Radfahrer, die an einem typischen Werktag – Feiertage ausgenommen – einen Straßenabschnitt passieren.`
   },
   'para3':{
     en: `Public holidays were excluded using the <code>holidays</code> library. 
@@ -75,13 +88,13 @@ const translations = {
   },
 };
 
+//Change of language
 function setLanguage(lang) {
   Object.keys(translations).forEach(id => {
     const el = document.getElementById(id);
     if (el) el.innerHTML = translations[id][lang];
   });
 }
-
 document.querySelectorAll('.lang-toggle button').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.lang-toggle button').forEach(b =>

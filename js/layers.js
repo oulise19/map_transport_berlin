@@ -1,3 +1,10 @@
+/**
+ * Definition of each layer
+
+ * @author Louise ALEX
+ * @date 2026-07-28
+ */
+
 import { currentZoom, currentProps, rangeStart, rangeEnd, selectedFeatureId, activeModeTelraam,
     activeModeVerkehr, activeModeSurvey, telraamData, verkehrData, surveydata, deckGL
         } from "./state.js"; 
@@ -11,6 +18,7 @@ import {getColorScale} from "./color.js";
 import {isTopicVisible} from "./label_in_line.js";
 
 export function getLayers() {
+    //definition to see if the toggle is checked
     const telraamVisible = document.getElementById('toggle-telraam').checked;
     const verkehrVisible = document.getElementById('toggle-verkehrsmengen').checked;
     const surveyVisible = document.getElementById('toggle-survey').checked;
@@ -19,21 +27,26 @@ export function getLayers() {
       id: 'telraam',
       data: telraamData, 
         getLineColor: (feature, {index}) => {
+        //if the segment is clicked on, segment goes yellow
         const featureId = feature.properties.id ?? index;
         if (featureId === selectedFeatureId) {
+          //yellow color, change here to change color
           return [255, 255, 0, 255];
         }
         const value = getAveragedValue(feature.properties, modeConfig[activeModeTelraam].telraam); 
         
         const [min, max] = modeConfig[activeModeTelraam].rangeTelraam;
+        //color of the scale
         const color_tel = getColorScale(value, min, max, modeConfig[activeModeTelraam].colorTelraam);
         return color_tel;
         },
       beforeId: 'waterway_label',
+      //elements that can change while the map runs 
       updateTriggers: {
       getLineColor: [activeModeTelraam, rangeStart, rangeEnd,selectedFeatureId],
       getLineWidth: [selectedFeatureId]
       },
+      //modify the width of Telraam segment
       lineWidthMinPixels: 4,
       pickable: true,
       visible: telraamVisible,
@@ -45,16 +58,20 @@ export function getLayers() {
     getLineColor: (feature, {index}) => {
       const featureId = feature.properties.id ?? index;
       if (featureId === selectedFeatureId) {
+        //segment clicked : segment in yellow
         return [255, 255, 0, 255];
       }
       const field = modeConfig[activeModeVerkehr].verkehr;
       const value = feature.properties[field];
       const threshold = modeConfig[activeModeVerkehr].zoomThreshold;
+      
       const rank_street = feature.properties['strklasse1'];
+      //Used to have I and II levels of street while the zoom is < 12
       if (currentZoom < 12 && rank_street > threshold) {
         return [0, 0, 0, 0];
       }
       const [min, max] = modeConfig[activeModeVerkehr].rangeVerkehr;
+      //color
       const color_ver = getColorScale(value, min, max, modeConfig[activeModeVerkehr].colorVerkehr);
       return color_ver;
     },
@@ -69,6 +86,7 @@ export function getLayers() {
       getLineColor: [activeModeVerkehr, currentZoom, selectedFeatureId],
       getLineWidth: [selectedFeatureId]
     },
+    //width of the segment
     lineWidthMinPixels: 3,
     pickable: true,
     visible: verkehrVisible,
@@ -101,7 +119,7 @@ export function getLayers() {
       lineWidthUnits: 'pixels',
       lineWidthMinPixels: 0.6,
       lineWidthMaxPixels: 0.6,
-
+        //update adapted to the selection of topics
         updateTriggers: {
           getFillColor: [
             document.getElementById('toggle-survey')?.checked,
@@ -115,6 +133,7 @@ export function getLayers() {
           ]
         }
       }),
+    //number on telraam's line
     new deck.TextLayer({
       id: 'telraam-labels',
       data: getLabelData(telraamData, modeConfig[activeModeTelraam].telraam, true),
@@ -128,6 +147,7 @@ export function getLayers() {
       getBackgroundColor: [255, 255, 255, 200],
       backgroundPadding: [3, 1],
     }),
+    //number on verkehrsmengen's lien
     new deck.TextLayer({
       id: 'verkehr-labels',
       data: getLabelData(verkehrData, modeConfig[activeModeVerkehr].verkehr, false),

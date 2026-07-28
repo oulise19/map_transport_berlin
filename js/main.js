@@ -1,5 +1,10 @@
+/**
+ * Main function that calls all the other js files + all event listener
+ * Go here to change the style of the background map
 
-
+ * @author Louise ALEX
+ * @date 2026-07-28
+ */
 import { currentZoom, currentProps, rangeStart, rangeEnd, selectedFeatureId, activeModeTelraam,
     activeModeVerkehr, activeModeSurvey, telraamData, verkehrData, surveydata, deckGL, setDeckGL,
 setCurrentZoom, currentLayerId, setCurrentLayerId, setselectedFeatureId} from "./state.js"; 
@@ -20,17 +25,23 @@ import {toggle_tel, setDefaultToggle, handleTelraamModeClick, handleVerkehrModeC
 } from "./buttons.js"; 
 import {loadData} from "./data.js"; 
 
-console.log('main.js loaded')
+//Calling all functions defined in other javascripts
 
 loadData().then(() => {
-  console.log('Layers:', getLayers().map(l => l.id));
+  // initialize the DeckGL map instance once data has loaded
     setDeckGL(new deck.DeckGL({
         container: 'map',
+
+        //changing the style of the background map
         mapStyle: 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json',
-        // mapStyle: 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json',
-        viewState: currentViewState, // instead of initialViewState
+        //mapStyle: 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json',
+
+        // initial position/zoom
+        viewState: currentViewState, 
         controller: true,
-        pickingRadius: 10,
+        pickingRadius: 10, // click/hover detection radius in pixels
+
+        // keep view state and zoom-dependent layers/tooltip in sync on zoom
         onViewStateChange: ({viewState}) => {
           setCurrentViewState(viewState);
           setCurrentZoom(viewState.zoom);
@@ -38,42 +49,48 @@ loadData().then(() => {
         },
         updateLegend: updateLegend('telraam'),
         updateLegend: updateLegend('verkehrsmengen'),
+        
+           // define actions on clicking a segment: show details panel for that feature
         onClick: (info) => {
-        if (!info.object) return;
+        if (!info.object) return; //ignore click on an empty part
 
         const layerId = info.layer.id;
         const props = info.object.properties;
-
+        
+        // ignore click if this layer is currently toggled off
         const layerToggle = document.getElementById(`toggle-${layerId}`);
         if (layerToggle && !layerToggle.checked) return;
+        
 
-        // currentLayerId = layerId;
         setCurrentLayerId(layerId);
         setselectedFeatureId(props.id ?? info.index);
+        // get the active field config for each dataset based on current mode (car/bike/etc.)
         const configTel = modeConfig[activeModeTelraam];
         const configVer = modeConfig[activeModeVerkehr];
 
         const valuetel = getAveragedValue(props, configTel.telraam);
         const value_ver = props[configVer.verkehr];
 
+        // render the side panel with the segment's data for both sources
         renderPanel(props, layerId, { valuetel, value_ver, configTel, configVer });
         deckGL.setProps({ layers: getLayers() });
-      },
-        getTooltip: getTooltip,
+        },
+
+        getTooltip: getTooltip, // hover tooltip renderer
         layers: getLayers(),
         parameters: {
-        depthTest: false,
+        depthTest: false, // disable depth testing so overlapping layers render in draw order
         },  
     }));
+  // wire up close button for the right-side info panel
   document.getElementById('close-btn').addEventListener('click', closeRightPanel);
 });
 
+//To hide "Berlin" label 
 setTimeout(() => {
   const map = deckGL.getMapboxMap();
   map.setLayoutProperty('place_city_r5', 'visibility', 'none');
 }, 1000);
-
-
 
 //zoom buttons 
 function zoomBy(delta) {
@@ -85,7 +102,7 @@ function zoomBy(delta) {
   deckGL.setProps({ viewState: currentViewState });
 }
 
-//click toggle 
+//click toggle event
 document.addEventListener('DOMContentLoaded', () => {
   setDefaultToggle('#mode-toggles-tel .toggle-btn[value="bike"]', 'colorTelraam', modeConfig);
   setDefaultToggle('#mode-toggles-ver .toggle-btn[value="bike"]', 'colorVerkehr', modeConfig);
@@ -149,7 +166,6 @@ window.addEventListener('DOMContentLoaded', () => {
     // how far the tick is from the container's current scroll position
     const offset = tickRect.left - containerRect.left + container.scrollLeft;
 
-    // center it: offset minus half the container's width, plus half the tick's width
     container.scrollLeft = offset - container.clientWidth / 2 + activeTick.clientWidth / 2;
   }
 });

@@ -1,3 +1,10 @@
+/**
+ * Labels (numbers) visible on the line
+
+ * @author Louise ALEX
+ * @date 2026-07-28
+ */
+
 import { currentZoom, currentProps, rangeStart, rangeEnd, selectedFeatureId, activeModeTelraam,
     activeModeVerkehr, activeModeSurvey, telraamData, verkehrData, surveydata, deckGL
         } from "./state.js"; 
@@ -5,10 +12,9 @@ import { currentZoom, currentProps, rangeStart, rangeEnd, selectedFeatureId, act
 import { currentViewState, INITIAL_VIEW_STATE, modeConfig, justiceColorMap 
         } from "./config.js";
 
-
 import {getAveragedValue} from "./timeline.js"
 
-// for numbers in the linestring 
+// For numbers in the linestring 
 export function getLineMidpoint(geometry) {
   if (!geometry) return null;
   let coords;

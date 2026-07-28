@@ -1,10 +1,8 @@
-//for highest values in heavy to avoid outliners 
-// function getPercentile(values, p) {
-//   const sorted = [...values].filter(v => v != null).sort((a, b) => a - b);
-//   const index = Math.floor((p / 100) * sorted.length);
-//   return sorted[index];
-// }
-//tooltip
+/**
+ * Tooltip functions
+ * @author Louise ALEX
+ * @date 2026-07-28
+ */
 
 import { currentZoom, currentProps, rangeStart, rangeEnd, selectedFeatureId, activeModeTelraam,
     activeModeVerkehr, activeModeSurvey, telraamData, verkehrData, surveydata, deckGL, currentLayerId, setCurrentLayerId
@@ -16,12 +14,11 @@ import {currentViewState, INITIAL_VIEW_STATE, modeConfig, justiceColorMap
 import {getAveragedValue} from "./timeline.js"
 
 export function getTooltip({ object, layer }) {
-  
+  //if level of zoom < 12 then no tooltip
   if (!object || currentZoom < 12) return null;
   const props = object.properties;
   const layerId = layer.id;
 
-  // currentLayerId = layerId;
   setCurrentLayerId(layerId);
 
   const configTel = modeConfig[activeModeTelraam];
@@ -33,6 +30,7 @@ export function getTooltip({ object, layer }) {
   const observation = props.observation_clean;
   const theme = props.suggestion_clean;
 
+  //What is shown on the layer depending on the layer passed by the mouse
   switch (layer.id) {
     case 'telraam':
       return {

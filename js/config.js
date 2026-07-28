@@ -1,5 +1,10 @@
-//Static values that never change while the app run 
-//You can modify the colors of each layer, the level of zoom, name of labels and framing (longitude, latitude)
+/**
+ * Static values that never change while the map runs 
+ *You can modify the colors of each layer, the level of zoom, name of labels and framing (longitude, latitude)
+
+ * @author Louise ALEX
+ * @date 2026-07-28
+ */
 
 
 //definition of deck
@@ -39,8 +44,8 @@ export const modeConfig = {
   }
 };
 
-//using the variable name from data/sites_mit_demographics_bereinigt_v2.geojson
-//in case they change, modify here to have the good definiton 
+//Using the variable name from data/sites_mit_demographics_bereinigt_v2.geojson
+//In case they change, modify here to have the good definiton 
 export const justiceColorMap = {
   "very just": [46, 125, 50, 255],       // green
   "somewhat just": [139, 195, 74, 255],  // light green

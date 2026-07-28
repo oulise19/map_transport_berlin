@@ -1,3 +1,7 @@
+<!-- Weitere Information Page 
+Use it to modify the button DE|EN english 
+To change the content of the page, go to js/language.js  -->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,20 +12,21 @@
 </head>
 <body>
   <main class="info-page">
+
+    <!-- DE|EN button -->
     <div class="lang-toggle">
-  <button data-lang="de" class="active">DE</button>
-  <span>|</span>
-  <button data-lang="en" >EN</button>
-  
-</div>
+      <button data-lang="de" class="active">DE</button>
+      <span>|</span>
+      <button data-lang="en" >EN</button>
+    </div>
+
+    <!-- Go back button -->
     <a href="index.html" target="_self" class="info-link2">Zurück</a>
     <h2 id="title"></h2>
-    <!-- <p class="subtitle">Pipeline used for Telraam data</p> -->
-
+    
+    <!-- Content -->
     <section>
-
       <h3 id= "datenquellen-heading"></h3>
-
       <p id="intro"></p>
       <p id="intro2"></p>
     </section>
@@ -29,7 +34,8 @@
     <section>
       <h3 id = "title2"></h3>
       <div class="callout">
-        <strong>DTVw</strong> — Durchschnittlicher Tagesverkehr werktags (Average Daily Traffic on workdays): the average number of vehicles and cyclists passing a road section on a typical weekday, excluding public holidays.
+        <strong> DTVw </strong>
+        <strong id = "dtvw"></strong>
       </div>
       <p id= 'para2'></p>
       <p id= 'para3'></p>
@@ -45,21 +51,8 @@
       <p id= 'para5'></p>
       <p id='para6'></p>
     </section>
-  </main>
+    
+</main>
 </body>
 <script src="js/language.js"></script>
 </html>
-
-      <!-- <p data-de="In dieser Visualisierung präsentieren wir Daten aus verschiedenen
-       Quellen. Die Geoportal-Daten stammen vom Geoportal Berlin. 
-       Es wurde keine Verarbeitung angewendet, außer für den Autoverkehr,
-        der berechnet wurde, indem <code>dtvw_lkw</code> (nur schwere Fahrzeuge) von 
-        <code>dtvw_kfz</code> (alle Fahrzeuge) subtrahiert wurde.</p>">
-        In this visualization, we present data from different sources. The Geoportal data comes from the Geoportal of Berlin. 
-        No processing was applied to it, except for car traffic, which was calculated by subtracting 
-        <code>dtvw_lkw</code> (heavy vehicles only) from <code>dtvw_kfz</code> (all vehicles).</p>
-      <p>The second dataset comes from the Telraam platform, which uses sensors to collect counts of cyclists, pedestrians, cars, and heavy vehicles. 
-        This data is accessible via an API or the <a href="http://www.berlin-zaehlt.de/">Berlin Zählt 
-          Mobilität website</a>, 
-        though only as raw hourly counts. This required processing to make it appear on the map.
-      The last data source is a survey conducted by students from Humboldt University Berlin.</p> -->

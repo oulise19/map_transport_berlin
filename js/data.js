@@ -1,5 +1,10 @@
-// All data loaded here 
-//If you want to modify the data change the name of the file inside fetch
+/**
+ * All data loaded here  
+ * If you want to modify the data change the name of the file inside fetch
+
+ * @author Louise ALEX
+ * @date 2026-07-28
+ */
 
 import {telraamData, verkehrData, surveydata, setTelraamData, setVerkehrData, setSurveyData } from "./state.js";
 

@@ -1,12 +1,16 @@
-//All variables that change as the page runs 
-// Example : active layer, level of zoom, time period...
-
+/**
+ * All variables that change as the page runs 
+ * Example : active layer, level of zoom, time period...
+ * @author Louise ALEX
+ * @date 2026-07-28
+ */
 
 export let currentZoom = null;
 export function setCurrentZoom(zoom) {
   currentZoom = zoom;
 }
 
+//By defaults the map is on 2025
 export let rangeStart = '2025_01';
 export let rangeEnd = '2025_12'; 
 export function setrangeStart(start){ rangeStart = start;}
@@ -14,6 +18,7 @@ export function setrangeEnd(end){ rangeEnd = end;}
 
 export function setselectedFeatureId(feature){selectedFeatureId = feature;}
 
+//By default the active mode is bike
 export let activeModeTelraam = 'bike';
 export let activeModeVerkehr = 'bike';
 export let activeModeSurvey = 'survey';

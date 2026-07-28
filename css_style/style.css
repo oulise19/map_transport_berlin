@@ -325,10 +325,26 @@ label {
   letter-spacing: 0.5px;
 }
 
+/* .accordion-header-2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #585757;
+  cursor: pointer;
+  user-select: none;
+  letter-spacing: 0.5px;
+  margin-right: 10px;
+} */
+
 .accordion-header-2 {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+  box-sizing: border-box;
   padding: 10px 0;
   font-size: 12px;
   font-weight: 600;
