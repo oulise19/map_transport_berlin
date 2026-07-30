@@ -45,4 +45,4 @@ Contact : ```louise.alex@ensg.eu```
 
 ## General Attribution Text
 
-> Map data © Telraam (CC BY 4.0), Geoportal Berlin (Datenlizenz Deutschland – Namensnennung 2.0), and independent survey data collected by [Huombodt University students].
+> Map data © Telraam (CC BY 4.0), Geoportal Berlin (Datenlizenz Deutschland – Namensnennung 2.0), and independent survey data collected by [Humboldt University students].
