@@ -20,7 +20,7 @@ The pipeline followed the DTVw (Durchschnittlicher Tagesverkehr werktags (Averag
 - **License:** [Datenlizenz Deutschland – Namensnennung – Version 2.0](https://www.govdata.de/dl-de/by-2-0)
 
 ### Independent Survey
-- **Source:** [Survey name / Humboldt University]
+- **Source:** Humboldt University
 - **License / Usage:** not for redistribution
 - **Attribution:** Survey data collected by students of Humboldt University, [2026].
 
