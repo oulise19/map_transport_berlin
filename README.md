@@ -29,7 +29,11 @@ The pipeline followed the DTVw (Durchschnittlicher Tagesverkehr werktags (Averag
 - Telraam data portal: https://telraam.net/
 - Geoportal Berlin: https://www.berlin.de/sen/sbw/stadtdaten/geoportal/
 - Datenlizenz Deutschland – Namensnennung 2.0: https://www.govdata.de/dl-de/by-2-0
-- Pipeline : https://github.com/oulise19/teleraam-data 
+- Pipeline : https://github.com/oulise19/teleraam-data
+
+## Help
+
+Find inside [explanations.md](explanations.md), a complete explanation of how the code works and which file to modify for what purpose.
 
 ## Contact
 
