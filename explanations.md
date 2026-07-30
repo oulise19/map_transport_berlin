@@ -40,7 +40,7 @@ map_transport_berlin/
 
 ### Changing the name of a button/text on the map
 
-If you want to modify the name on the main page of a button or a text that does not change while the map runs (on left panel, depending on the segment selected, the text change) [open index.html](index.html). Then you can find the button or text that needs to be changed. Since the script is bit long, search directly the current text you want to change.  
+If you want to modify text or button's name that does not change while the map runs (on right panel, depending on the segment selected, the text change), [open index.html](index.html). Then you can find the button or text that needs to be changed. Since the script is bit long, search directly the current text you want to change.  
 
 If you want to modify the text on right panel (e.g "Fahrräder:", "Straße:" ), [open panels.js](js/panels.js). In function renderPanel, starting from line 30 
 
