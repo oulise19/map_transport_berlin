@@ -3,42 +3,6 @@
 This project displays data on an interactive map, done as part of the project **Berlin Bequem**,
 combining traffic/mobility data both qualitative and quantitative from **Telraam**, geographic base data from **Geoportal Berlin**, and results from an **independent survey** done by Humboldt University. You can find it in live on this page : [Page Github link](https://oulise19.github.io/map_transport_berlin/index.html) or directly on the website [Berlin Bequem](https://www.berlinbequem.de/).
 
-## Project structure 
-
-```
-map_transport_berlin/
-├──css_style/
-|      ├──style.css
-|      └──style2.css
-|
-├──data/
-|      ├──all_verkehrsmengen_2023_new.geojson
-|      ├──sites_mit_demographics_bereinigt_v2.geojson
-|      └──tel_all_years.geojson
-|
-├──js/
-|      ├──buttons.js
-|      ├──color.js
-|      ├──config.js
-|      ├──data.js
-|      ├──label_in_line.js
-|      ├──language.js
-|      ├──layers.js
-|      ├──legend.js
-|      ├──main.js
-|      ├──panels.js
-|      ├──state.js
-|      ├──timeline.js
-|      └──tooltip.js
-|   
-├──index.html
-├──more_info.html
-├──telraam_doc.md
-└──README.md
-
-
-```
-
 
 ## Data Sources
 

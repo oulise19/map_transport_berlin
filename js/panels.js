@@ -27,6 +27,7 @@ export function renderPanel(props, layerId) {
   //If segment telraam clicked, Telraam segment is written on the right panel
   //If it's Geoportal clicked : Geoportal-Segment aus Berlin is written
   if (layerId === 'telraam') {
+    //To change the text of this value, change what is written between <strong> ... </strong>
     value2 =  `<p class="segment-header"> <strong> Telraam segment</strong> </p>`;
     value = getAveragedValue(props, config.telraam);
   } else if (layerId === 'verkehrsmengen') {
