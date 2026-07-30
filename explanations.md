@@ -51,7 +51,7 @@ If you want to modify the text on right panel (e.g "Fahrräder:", "Straße:" ), 
 
 ### Changing colors, police, size....
 
-All style effects can be changed inside [style.css](css_style/style.css) for main page (linked with index.html) and style_2.css. Chekc the id or class of the object you want change something (e.g in index.html line 20, the div is called "left-panel", to change the background color, go to left-panel in style.css and change background (line 19)). 
+All style effects can be changed inside [style.css](css_style/style.css) for main page (linked with index.html) and style_2.css. Chekc the id or class of the object you want change something (e.g in index.html line 20, the div is called "left-panel", to change the background color, go to left-panel in **style.css** and change background (line 19)). 
 
-Sometime, for the topics of the survey, the style is directly put inside the html. 
-Same for the points of the survey, the color can be directly changed in html.
+Sometime, for the topics of the survey, the style is directly put inside the **html**. 
+Same for the points of the survey, the colors can be directly changed in **html**.
