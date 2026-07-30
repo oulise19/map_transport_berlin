@@ -46,7 +46,7 @@ If you want to modify the text on right panel (e.g "Fahrräder:", "Straße:" ), 
 
 ### Changing the data 
 
-**Step 1** Import the new file inside [data](/data)
+**Step 1** Import the new file inside [data](/data) <br>
 **Step 2** Change the name of the file inside [data.js](js/data.js) (It must be geojson). The names of values inside the new file must match with the one that are defined in [config.js](js/config.js), line 26 and in [panels.js](js/panels) line 50 for the survey. 
 
 ### Changing colors, police, size....
