@@ -33,8 +33,6 @@ map_transport_berlin/
 ├──telraam_doc.md
 ├──explanations.md
 └──README.md
-
-
 ```
 
 ## Which script to modify for what purpose 
