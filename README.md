@@ -37,11 +37,11 @@ Find inside [explanations.md](explanations.md), a complete explanation of how th
 
 ## Contact
 
-For questions about this map or its data, contact: [Marek Sierts](info@transform-mobility.de),   [Louise Alex](louise.alex@ensg.eu)
+For questions about this map or its data, contact: Marek Sierts : ```info@transform-mobility.de```, Louise Alex : ```louise.alex@ensg.eu```.
 
 ## Author : 
 Louise Alex 
-Contact : [Louise Alex](louise.alex@ensg.eu)
+Contact : ```louise.alex@ensg.eu```
 
 ## General Attribution Text
 
