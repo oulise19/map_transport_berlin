@@ -12,7 +12,7 @@ export async function loadData() {
   const [telRes, verRes, surRes] = await Promise.all([
     fetch('data/tel_all_years.geojson'),
     fetch('data/all_verkehrsmengen_2023_new.geojson'),
-    fetch('data/sites_mit_demographics_bereinigt_v2.geojson'),
+    fetch('data/sites_mit_demographics_bereinigt_v2_sample.geojson'),
   
   ]);
   setTelraamData(await telRes.json());
