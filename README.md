@@ -20,7 +20,7 @@ The pipeline followed the DTVw (Durchschnittlicher Tagesverkehr werktags (Averag
 - **License:** [Datenlizenz Deutschland – Namensnennung – Version 2.0](https://www.govdata.de/dl-de/by-2-0)
 
 ### Independent Survey
-- **Source:** [Survey name / Humboldt University]
+- **Source:** Humboldt University
 - **License / Usage:** not for redistribution
 - **Attribution:** Survey data collected by students of Humboldt University, [2026].
 
@@ -29,16 +29,20 @@ The pipeline followed the DTVw (Durchschnittlicher Tagesverkehr werktags (Averag
 - Telraam data portal: https://telraam.net/
 - Geoportal Berlin: https://www.berlin.de/sen/sbw/stadtdaten/geoportal/
 - Datenlizenz Deutschland – Namensnennung 2.0: https://www.govdata.de/dl-de/by-2-0
-- Pipeline : https://github.com/oulise19/teleraam-data 
+- Pipeline : https://github.com/oulise19/teleraam-data
+
+## Help
+
+Find inside [explanations.md](explanations.md), a complete explanation of how the code works and which file to modify for what purpose.
 
 ## Contact
 
-For questions about this map or its data, contact: [Marek Sierts](info@transform-mobility.de),   [Louise Alex](louise.alex@ensg.eu)
+For questions about this map or its data, contact: Marek Sierts : ```info@transform-mobility.de```, Louise Alex : ```louise.alex@ensg.eu```.
 
 ## Author : 
 Louise Alex 
-Contact : [Louise Alex](louise.alex@ensg.eu)
+Contact : ```louise.alex@ensg.eu```
 
 ## General Attribution Text
 
-> Map data © Telraam (CC BY 4.0), Geoportal Berlin (Datenlizenz Deutschland – Namensnennung 2.0), and independent survey data collected by [Huombodt University students].
+> Map data © Telraam (CC BY 4.0), Geoportal Berlin (Datenlizenz Deutschland – Namensnennung 2.0), and independent survey data collected by [Humboldt University students].
