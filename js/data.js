@@ -52,6 +52,12 @@ export async function loadData() {
   setSurveyData(surData);
     console.log('Anzahl Features:', surData.features.length);
 console.log('Spalten:', Object.keys(surData.features[0].properties));
+    const f = surData.features[0];
+console.log('geometry:', f.geometry);
+console.log('mit gültiger geometry:',
+  surData.features.filter(x => x.geometry && x.geometry.coordinates).length,
+  'von', surData.features.length);
+console.log('topic_noise Wert/Typ:', f.properties.topic_noise, typeof f.properties.topic_noise);
 
   } catch (err) {
     console.error('Failed to load survey data:', err);
