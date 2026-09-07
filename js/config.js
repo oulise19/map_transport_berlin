@@ -8,7 +8,7 @@
 
 
 //definition of deck
-export const SURVEY_DATA_FILE = 'sites_mit_demographics_bereinigt_v2.geojson';
+export const SURVEY_DATA_FILE = 'sites_mit_demographics_bereinigt_v2_sample.geojson';
 export const {DeckGL, GeoJsonLayer} = deck;
 
 //default Zoom and default framing
