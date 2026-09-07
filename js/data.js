@@ -50,6 +50,8 @@ export async function loadData() {
       }
     }
   setSurveyData(surData);
+    console.log('Anzahl Features:', surData.features.length);
+console.log('Spalten:', Object.keys(surData.features[0].properties));
 
   } catch (err) {
     console.error('Failed to load survey data:', err);
